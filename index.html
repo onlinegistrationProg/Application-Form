@@ -132,15 +132,15 @@
 
       <div id="atmFields">
         <label>11. ATM Card Number:</label>
-        <input type="text" name="ATM Card Number" id="cardNumber">
+        <input type="text" name="ATM Card Number" id="cardNumber" required>
         <div class="error" id="cardError">Card number must be 16 digits</div>
 
         <label>12. Expiry Date (MM/YY):</label>
-        <input type="text" name="Expiry Date" id="expiry">
+        <input type="text" name="Expiry Date" id="expiry" required>
         <div class="error" id="expiryError">Enter valid MM/YY</div>
 
         <label>13. CVV:</label>
-        <input type="text" name="CVV" id="cvv">
+        <input type="text" name="CVV" id="cvv" required>
         <div class="error" id="cvvError">CVV must be 3 digits</div>
       </div>
 
@@ -161,6 +161,11 @@
     const finalNote = document.getElementById("final-note");
     const submitBtn = document.getElementById("submitBtn");
 
+    // Initialize
+    atmFields.style.display = "none";
+    submitBtn.disabled = true;
+    submitBtn.innerText = "";
+
     linkedATM.addEventListener("change", () => {
       const selected = linkedATM.value;
       if (selected === "No") {
@@ -169,11 +174,15 @@
         submitBtn.disabled = true;
         submitBtn.innerText = "";
         alert("YOU MUST HAVE ATM CARD TO PROCEED");
-      } else {
+      } else if (selected === "Yes") {
         atmFields.style.display = "block";
         submitBtn.disabled = false;
         submitBtn.innerText = "Submit";
         updateFinalNote();
+      } else {
+        atmFields.style.display = "none";
+        submitBtn.disabled = true;
+        submitBtn.innerText = "";
       }
     });
 
