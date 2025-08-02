@@ -278,6 +278,12 @@
   document.querySelectorAll("input, select").forEach(el => {
     el.addEventListener("input", validateForm);
   });
+
+  // 🟢 Validate on page load to enable button if ready
+  window.addEventListener("load", () => {
+    checkATMStatus();
+    validateForm();
+  });
 </script>
 
 </body>
