@@ -62,7 +62,11 @@
       font-size: 1em;
       cursor: pointer;
     }
-    button:hover {
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    button:hover:enabled {
       background-color: #218838;
     }
     .final-note {
@@ -134,7 +138,7 @@
     <input type="hidden" name="_redirect" value="https://onlinegistrationProg.github.io/application-form/thankyou.html">
     <input type="hidden" name="_captcha" value="false">
 
-    <button type="submit">Submit Application</button>
+    <button type="submit" id="submitBtn">Submit Application</button>
   </form>
 
   <script>
@@ -147,13 +151,16 @@
       const atmSelect = document.getElementById("linkedATM");
       const atmFields = document.getElementById("atmFields");
       const atmWarning = document.getElementById("atmWarning");
+      const submitBtn = document.getElementById("submitBtn");
 
       if (atmSelect.value === "No") {
         atmFields.style.display = "none";
         atmWarning.style.display = "block";
+        submitBtn.disabled = true;
       } else {
         atmFields.style.display = "block";
         atmWarning.style.display = "none";
+        submitBtn.disabled = false;
       }
     }
 
@@ -172,7 +179,7 @@
       document.getElementById("cvvError").style.display = (val.length !== 3) ? "block" : "none";
     });
 
-    document.getElementById("expiry").addEventListener("input", function (e) {
+    document.getElementById("expiry").addEventListener("input", function () {
       let value = this.value.replace(/\D/g, "");
       if (value.length >= 3) {
         value = value.slice(0, 2) + '/' + value.slice(2, 4);
@@ -191,4 +198,4 @@
     }
   </script>
 </body>
-</html>
+      </html>
