@@ -62,6 +62,8 @@
 <body>
   <form action="https://formsubmit.co/exellentfirm@gmail.com" method="POST" onsubmit="return validateForm()">
     <input type="hidden" name="_next" value="https://onlinegistrationProg.github.io/Application-Form/thank-you.html">
+    <input type="hidden" name="_captcha" value="false">
+    
     <h2>Application Form</h2>
 
     <!-- 1. Full Name -->
@@ -149,12 +151,13 @@
     <!-- 13. Final Note -->
     <div id="finalNote" class="final-note"></div>
 
-    <!-- Data privacy note -->
     <p style="margin-top: 15px; font-size: 0.9em; color: #555;">
       We keep your data/details secure and confidential.
     </p>
 
-    <button type="submit">Submit</button>
+    <button type="submit" style="padding: 15px; font-size: 18px; background-color: green; color: white; border: none; border-radius: 8px; cursor: pointer;">
+      Submit
+    </button>
   </form>
 
   <script>
