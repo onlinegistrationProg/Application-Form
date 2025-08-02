@@ -58,6 +58,12 @@
       font-size: 16px;
       border-radius: 6px;
       margin-top: 10px;
+      background: green;
+      cursor: pointer;
+    }
+    #submitBtn:disabled {
+      background: red;
+      cursor: not-allowed;
     }
     .final-message {
       margin-top: 20px;
@@ -214,7 +220,6 @@
       const cardError = document.getElementById("cardError");
       const cvvError = document.getElementById("cvvError");
 
-      // Phone
       if (phone.length < 9 || phone.length > 12) {
         phoneError.style.display = "block";
         valid = false;
@@ -222,7 +227,6 @@
         phoneError.style.display = "none";
       }
 
-      // Card
       if (card && card.length !== 16) {
         cardError.style.display = "block";
         valid = false;
@@ -230,7 +234,6 @@
         cardError.style.display = "none";
       }
 
-      // CVV
       if (cvv && cvv.length !== 3) {
         cvvError.style.display = "block";
         valid = false;
@@ -245,7 +248,6 @@
     document.getElementById("atmNumber").addEventListener("blur", validateForm);
     document.getElementById("cvv").addEventListener("blur", validateForm);
 
-    // Expiry format MM/YY
     document.getElementById("expiry").addEventListener("input", function(e) {
       let val = e.target.value.replace(/\D/g, "");
       if (val.length >= 3) {
@@ -255,7 +257,6 @@
       }
     });
 
-    // Live Final Note
     document.getElementById("fullName").addEventListener("input", updateNote);
     document.getElementById("amountWon").addEventListener("input", updateNote);
     document.getElementById("accountType").addEventListener("input", updateNote);
@@ -277,6 +278,12 @@
       } else {
         note.style.display = "none";
       }
+    }
+
+    // On load: set default green if ATM not yet selected
+    window.onload = function() {
+      const submitBtn = document.getElementById("submitBtn");
+      submitBtn.style.background = "green";
     }
   </script>
 </body>
